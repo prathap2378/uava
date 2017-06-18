@@ -43,7 +43,8 @@
   </tr> -->
 
 
-
+<tr>
+</tr>
 	<tr>
 	<td  align="center">Location:<input type="text" id="location_event" name="location_event"/></td>
 	<td  align="center">Date:<input type="date" id="date_event" name="date_event"/></td>
