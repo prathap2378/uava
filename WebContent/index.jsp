@@ -9,5 +9,6 @@
 <body>
 <p>Hi git</p>
 edit this
+push data is ok but pulling data will be getting some how dificult in the git
 </body>
 </html>
