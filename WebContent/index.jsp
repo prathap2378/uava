@@ -8,7 +8,7 @@
 </head>
 <body>
 <p>Hi git</p>
-edit this
+edit thi s in git so git fetch will work 
 push data is ok but pulling data will be getting some how dificult in the git
 </body>
 </html>
