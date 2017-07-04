@@ -199,3 +199,20 @@ function person(name,age,color) {
 	this.color = color;
 	window.alert(this.name,this.age,color);
 }
+//for in loop
+var obj={fName:'bhanu',mName:'Prathap',lName:'K',age:27};
+var ver;
+var txt = "";
+for(ver in obj){
+	txt += obj[ver]+" "
+	//window.alert(txt += obj(ver)+" ");
+}
+console.log(txt);
+
+function validateForm() {
+    var x = document.forms["addEvent"]["fname"].value;
+    if (x == "") {
+        alert("Name must be filled out");
+        return false;
+    }
+}

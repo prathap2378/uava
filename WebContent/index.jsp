@@ -10,7 +10,7 @@
 <link href="main.css" rel="stylesheet" type="text/css">
 <title>Welcome to Mela</title>
 </head>
-<script src=home.js></script>
+
 <body onload="outPut()">
 
 <form name='feeds' action="#" >
@@ -26,14 +26,13 @@
     <th width="50%">
 
     <div style="padding-top: 5px">
-	<button >Add Event</button>
+	<button onclick="document.forms[0].action = 'AddEvent.jsp'; return true;">Add Event</button>
 
 	</div>
     <div align="left">
 	<p id='time'></p>
 	</div>
 
-	
   </tr>
   <!-- <tr>
   <th>
@@ -65,10 +64,8 @@
     </th>
   </tr>
 </table>
-<script>
-//person('Bhanu','27','block');
-</script> 
 
+<script src=main.js></script>
 </form>
 </body>
 </html>

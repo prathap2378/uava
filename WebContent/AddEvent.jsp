@@ -8,26 +8,84 @@
 </head>
 
 <body id="body" style="overflow:hidden;">
-<div id="abc">
-
-<!-- Popup Div Starts Here -->
-<div id="popupContact">
 
 <!-- Contact Us Form -->
-<form method="Post" action="/MelaPractice/Register" id="form"  name="form">
-<img id="close" src="images/3.png" onclick ="div_hide()">
-<h2>Add Event</h2>
-<hr>
-<input id="name" name="name" value="Add Event" type="text">
-<input id="email" name="email" value="Location" type="text">
-<input id="time" name="time" value="Time" type="text">
-<textarea id="msg" name="message"></textarea>
-<input type="submit" id="addEventbtn" Value="Add Event"/>
+<form method="Post" action="#" id="form"  name="form">
+<table>
+<!-- <img id="close" src="../images/rsz_1rsz_event.jpg" onclick ="div_hide()"> -->
+<tr>
+<td>
+<P title="Add Event">Add Event</P>
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td align="right">
+Add Event:
+</td><td><input id="name" name="name" value="Add Event" type="text" maxlength="150" required>
+</td></tr>
+<tr>
+<td align="right">
+Location:</td>
+<td><input id="location" name="location" value="Location" type="text" maxlength="150" required>
+</td>
+</tr>
+</table>
+
+<table width="100%">
+<tr >
+<td width="50%" align="left">
+<div class=""  width="50%">Start Date:</div>
+<div width="50%"><input id="time" name="time" value="Time" type="date" width="100%" required></div>
+</td>
+<td width="50%">
+<div class="" align="left" width="50%">End Date:</div>
+<div align="left"  width="50%"><input id="time" name="time" value="Time" type="date" required></div>
+</td>
+</tr>
+</table>
+
+<table width="100%">
+<tr>
+<td align="right">
+Satrt Time:</td>
+<td><input id="time" name="time" value="Time" required>
+</td>
+<td align="right">
+<select>
+<option>AM</option>
+<option>PM</option></select>
+</td>
+<td align="right">
+End Time:</td>
+<td><input id="time" name="time" value="Time" required>
+</td><td align="right">
+<select>
+<option>AM</option>
+<option>PM</option></select>
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td align="right">
+Description:</td>
+<td><textarea id="msg" name="message"></textarea>
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td>
+<button type="submit" id="addEventbtn" Value="Add Event">Add E</button>
+</td></tr>
+</table>
+
+<img id="close" src="images/event.png"/>
 </form>
-</div>
-<!-- Popup Div Ends Here -->
-</div>
-</body>
-<!-- Body Ends Here -->
 </body>
 </html>
