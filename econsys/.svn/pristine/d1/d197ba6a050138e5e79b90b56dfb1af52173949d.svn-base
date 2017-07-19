@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="24056" started-at="2016-05-19T10:10:42Z" finished-at="2016-05-19T10:11:06Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="24056" started-at="2016-05-19T10:10:42Z" finished-at="2016-05-19T10:11:06Z">
+      <class name="com.econsys.SmallWorks.smallWork_flow">
+        <test-method status="PASS" signature="testflow()[pri:0, instance:com.econsys.SmallWorks.smallWork_flow@169fd6]" name="testflow" duration-ms="23246" started-at="2016-05-19T15:40:42Z" finished-at="2016-05-19T15:41:05Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testflow -->
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.econsys.SmallWorks.smallWork_flow@169fd6]" name="afterClass" is-config="true" duration-ms="799" started-at="2016-05-19T15:41:05Z" finished-at="2016-05-19T15:41:06Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterClass -->
+      </class> <!-- com.econsys.SmallWorks.smallWork_flow -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

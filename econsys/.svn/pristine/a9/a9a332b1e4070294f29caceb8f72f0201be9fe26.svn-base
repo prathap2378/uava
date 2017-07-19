@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Workflow mapping]">
+  <test name="Monorail_admin(failed)">
+    <classes>
+      <class name="adminpage.Monorail">
+        <methods>
+          <include name="main"/>
+        </methods>
+      </class> <!-- adminpage.Monorail -->
+      <class name="adminpage.Login">
+        <methods>
+          <include name="user"/>
+        </methods>
+      </class> <!-- adminpage.Login -->
+    </classes>
+  </test> <!-- Monorail_admin(failed) -->
+</suite> <!-- Failed suite [Workflow mapping] -->

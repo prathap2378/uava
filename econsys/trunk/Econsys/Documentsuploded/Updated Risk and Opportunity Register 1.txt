@@ -1,0 +1,55 @@
+   
+LOgfiles 
+
+cd /home/monorail/ProgramFiles/liferay-portal-6.2-ce-ga2/tomcat-7.0.42
+
+cd logs
+
+tail -1000f catalina.out|more
+
+
+To restart the sever
+./bin/startup.sh
+
+To check the server is started or not
+ps -ef | grep java
+
+ps -ef | grep mysql
+
+ps -ef | grep alfresco
+
+MYSQL start/stop commands
+Start:
+root@mypod:~# sudo /etc/init.d/mysqld start
+	or
+root@mypod:~# sudo start mysql
+
+Stop:
+root@mypod:~# sudo /etc/init.d/mysqld stop
+	or
+root@mypod:~# sudo stop mysql
+
+Restart:
+root@mypod:~# sudo /etc/init.d/mysqld restart
+	or
+root@mypod:~# sudo restart mysql
+
+
+Start/Stop Alfresco
+sudo service alfresco start
+
+sudo service alfresco stop
+
+To check the list
+ls
+
+To kill the instance
+kill -9 instanceid
+
+
+To check the time in sever
+$date$
+Mon Nov 10 22:32:46 UTC 2014
+
+To check the ipaddres of system
+ipconfig

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <test name="Test(failed)">
+    <classes>
+      <class name="com.econsys.testCases.CustomerCommitmentAcceptance_Projects">
+        <methods>
+          <include name="verifyAmendBidCCA"/>
+          <include name="verifyEmailCCA"/>
+          <include name="verifyVerbalCCA"/>
+          <include name="verifyLOICCA"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.CustomerCommitmentAcceptance_Projects -->
+      <class name="com.econsys.testCases.CustomerCommitmentAcceptance_SmallWorks">
+        <methods>
+          <include name="verify_SW_VerbalCCA"/>
+          <include name="verify_SW_LOICCA"/>
+          <include name="verify_SW_AmendBid"/>
+          <include name="verify_SW_EmailCCA"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.CustomerCommitmentAcceptance_SmallWorks -->
+      <class name="com.econsys.testCases.ActionButtonsCPApprovalsProjects">
+        <methods>
+          <include name="cancelSaveReject_CP6_to_CP9"/>
+          <include name="reject_DonotPro_CP4"/>
+          <include name="reject_DonotPro_CP5"/>
+          <include name="reject_DonotPro_CP3"/>
+          <include name="reject_DonotPro_CP1"/>
+          <include name="reject_DonotPro_CP2"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.ActionButtonsCPApprovalsProjects -->
+      <class name="com.econsys.testCases.CP1_CP9flowTest">
+        <methods>
+          <include name="greenPathflow"/>
+          <include name="amberPathflow"/>
+          <include name="redPathflow"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.CP1_CP9flowTest -->
+      <class name="com.econsys.testCases.VerifyDelegation">
+        <methods>
+          <include name="verify_AllProjectsDelegation"/>
+          <include name="verify_SavedRTQDelegation"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.VerifyDelegation -->
+      <class name="com.econsys.testCases.RtQVerify_Projects">
+        <methods>
+          <include name="rtq_Cancel"/>
+          <include name="mandatoryChek_RtQForm"/>
+          <include name="rtq_Reset"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.RtQVerify_Projects -->
+      <class name="com.econsys.testCases.LoginVerification">
+        <methods>
+          <include name="unAthorized_Login_userName"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.LoginVerification -->
+      <class name="com.econsys.testCases.smallWork_flow">
+        <methods>
+          <include name="smallWorks_flow"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.smallWork_flow -->
+      <class name="com.econsys.testCases.VerifyDeletion_SamllWorks">
+        <methods>
+          <include name="smallWorksSave_Delete_SavedRTQSW"/>
+          <include name="smallWorksDelete_Task"/>
+          <include name="smallWorksdelete_AllProjects"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.VerifyDeletion_SamllWorks -->
+      <class name="com.econsys.testCases.VerifyDeletion_Projects">
+        <methods>
+          <include name="projectdelete_AllProjects"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.VerifyDeletion_Projects -->
+      <class name="com.econsys.testCases.ActionButtonsCPApprovalsSW">
+        <methods>
+          <include name="cp2_doNotProceed"/>
+          <include name="cp4_doNotProceed"/>
+          <include name="cp3_doNotProceed"/>
+          <include name="cp5_doNotProceed"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.ActionButtonsCPApprovalsSW -->
+      <class name="com.econsys.testCases.RtQVerify_SmallWorks">
+        <methods>
+          <include name="mandatoryChek_QuoteForm_SmallWorks"/>
+          <include name="quoteForm_cancel"/>
+          <include name="quoteForm_reset"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.RtQVerify_SmallWorks -->
+      <class name="com.econsys.testCases.MyWatchlist">
+        <methods>
+          <include name="verifyApprovals_to_MyWatchList"/>
+          <include name="verifyMonthlyReview_to_MyWatchList"/>
+          <include name="verifyReview_toMyWatchList"/>
+          <include name="verifyProjectDoc_to_MyWatchList"/>
+          <include name="verifyMyOpportunities_to_MyWatchList"/>
+          <include name="verifySubmitQuote_to_MyWatchList"/>
+          <include name="verifyExeDashBoard_to_MyWatchList"/>
+          <include name="verifyHomePage_to_WatchList"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.MyWatchlist -->
+      <class name="com.econsys.testCases.Delivery_Review">
+        <methods>
+          <include name="submit_inDeliveryReview"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.Delivery_Review -->
+      <class name="com.econsys.testCases.allPagesVerification">
+        <methods>
+          <include name="verifyAllPages"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.allPagesVerification -->
+      <class name="com.econsys.testCases.RejectSmallWorks">
+        <methods>
+          <include name="cp4_Reject"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.RejectSmallWorks -->
+    </classes>
+  </test> <!-- Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->

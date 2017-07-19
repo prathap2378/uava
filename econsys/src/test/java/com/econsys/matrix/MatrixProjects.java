@@ -1,0 +1,439 @@
+package com.econsys.matrix;
+
+
+
+import java.io.IOException;
+
+import org.apache.log4j.Logger;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.Test;
+
+import com.econsys.Genriclibrery.*;
+import com.econsys.Projects.*;
+import com.econsys.SmallWorks.ProjectMethods_Small_Works;
+import com.econsys.TestData.Workbook;
+import com.econsys.UIobjectrepositary.*;
+
+/**
+ * @author bhanu.pk
+ * Matrix Projects class consists of end to end(CP1-CP9) flow
+ along with methods
+ * Assign sales leader
+ * Prepare_Quote
+ * Prepare_Quote CP2-CP3
+ * Submit Quote
+ * Status of submit Quote/Resubmit quote
+ * Board approval */
+
+public class MatrixProjects extends Driver {
+	
+	private static Logger log = Logger.getLogger(MatrixProjects.class.getName());
+	//Page UI classes
+	public static Preparequote prepare_Quoteui=PageFactory.initElements(Driver.driver(), Preparequote.class);
+	static CommonUtils cu=PageFactory.initElements(Driver.driver(), CommonUtils.class);
+	static RTQForm_Ui nrtq=PageFactory.initElements(Driver.driver(), RTQForm_Ui.class);
+	static Assignsalesleader sla=PageFactory.initElements(Driver.driver(), Assignsalesleader.class);
+	static CosCommitQuoteStatusUi ccq=PageFactory.initElements(Driver.driver(), CosCommitQuoteStatusUi.class);
+	static ActionButtonsUi ab=PageFactory.initElements(Driver.driver(),ActionButtonsUi.class);
+	static Salestooperation so=PageFactory.initElements(Driver.driver(),Salestooperation.class);
+	static AppointkeystaffandCommerSuitUi ak=PageFactory.initElements(Driver.driver(), AppointkeystaffandCommerSuitUi.class);
+	static PDPui pdp_ui=PageFactory.initElements(Driver.driver(),PDPui.class);
+	static Alerts alerts = PageFactory.initElements(Driver.driver(), Alerts.class);
+	Actions actions = new Actions(driver);
+	//import classes
+	static Workbook wb=new Workbook();
+	static ReviewInvolve ri=new ReviewInvolve();
+	static TasksCP4toCP5 g45=new TasksCP4toCP5();
+	static TaskCP3CP4 g34=new TaskCP3CP4();
+	static Basic b=new Basic();
+	static Monorail monorail = new Monorail();
+	static Login login=new Login();
+	static TasksCP5toCP9 pdop=new TasksCP5toCP9();
+	static EconsysVariables ev = new EconsysVariables();
+	static ProjectMethods_Small_Works projectMethods_Small_Works = new ProjectMethods_Small_Works();
+	
+	//Variables
+	/*public static String estimatedSize;
+	public static String location;*/
+	
+	static int num;
+	static double overallSell;
+	static String filepath=System.getProperty("user.dir");
+	
+	//Monorail flow
+	@Test(invocationCount = 1,threadPoolSize = 1)
+	//invocationCount = 10,threadPoolSize = 1
+	public void test1() throws Exception {
+		System.out.printf("%n[START] Thread Id : %s is started!", Thread.currentThread().getId());
+		monorailTestFlow(ev.estimatedSize,ev.location);
+		System.out.printf("%n[END] Thread Id : %s", Thread.currentThread().getId());
+	}
+	//Test method
+	@Test
+	public static void monorailTestFlow(String estimatedSize,String location) throws Exception{
+		//******URL&&&&&&&&&
+		//login.url_Matrixe();
+		login.url();
+
+		//*****Login as genral user******
+		cu.waitForPageToLoad();
+		//boolean elementexist=driver.findElements(By.cssSelector("input[id='_58_emailInput'][name='_58_login']")).size()>0;
+		//if(elementexist)
+		login.user();
+		//****intiation of rtq form*********
+	    b.rtqForm(estimatedSize,location);
+	    //submit rtq
+	    b.submit_Logout();
+		//***********CP1 exe dession************
+		if((estimatedSize.equals("D 500+"))||(location.equals("Other"))) {
+			//b.boardApproval();
+			sdApproval();
+		}
+		//Assign Sales Leader
+		String userName = wb.getXLData(1, 0,0);
+		String sl=wb.getXLData(10, 0, 0);
+		
+		if(!sl.equals(userName)){
+		monorail.ASL();
+		}
+		
+		//Prepare Quote
+		monorail.prepare_Quote();
+		cu.selectByVisibleText(prepare_Quoteui.getExpliciteapprovalatgateway2(),ev.exeCP2);
+		prepare_Quoteui.getQuoteprepared().click();
+		login.logout();
+		
+		b.pathdession(estimatedSize,location);
+		
+		//For CL approval in case of Quotation in our format is No
+		//RTQ 2 in prepare quote
+		String eSizertq2 = wb.getXLData(2, 4, 1);
+		 String locationrtq2 = wb.getXLData(4, 4, 1);
+				if((ev.ourformat.equals("No"))&&eSizertq2.equalsIgnoreCase("A 0-100k")
+						&&locationrtq2.equalsIgnoreCase("Inside M25")){
+					clApproval();
+				}
+		
+				//**********CP2 exe dession**************
+				if(ev.exeCP2.equals("Yes")){
+					b.boardApproval();
+				}
+				//If condition does not match for SD approval
+				else if((ev.bidsheetauthorised.equals("No"))){
+					MatrixProjects.sdApproval();
+				}
+		
+		monorail.submitQuote();
+		statusQuotesubmit_(ev.customerCommitmentType, ev.quote_StatusCp2Cp3);
+		
+		//**********CP4 exe dession New Flow**************
+		if((ev.clarification.equals("No"))||(ev.execp4.equals("Yes"))){
+			b.boardApproval();
+		}
+		g45.apointkeystaf();
+		//driver.quit();
+		//Commercial suit is removed in flow for matrix
+		//g45.commerSuit_Matrix();
+        
+		//Sales to operation hand-over
+		g45.salestoOperation();
+		
+  	    cu.selectByVisibleText(so.getExeCP5(),ev.exe5_SalestoOper);
+  	    ab.getComments().sendKeys("Sales to operation");
+  	    ab.getSubmitbutton().click();
+  	    login.logout();
+  	    
+  	    //operation hand-over
+        g45.operationAcceptance();
+  	  	cu.selectByVisibleText(ak.getExeOperationAcceptanceCP5(), ev.exeCP5_OperationAccep);
+  	  	ab.getComments().sendKeys("Operations Acceptance");
+  	  	ab.getAcceptOperationAcceptance().click();
+  	  	login.logout();
+		
+  	  	//**********CP5 exe dession **********
+        if(ev.exe5_SalestoOper.equals("Yes")||(ev.exeCP5_OperationAccep.equals("Yes")||(ev.draftproduced.equals("No")))){
+			b.boardApproval();
+		}
+        
+        //driver.close();
+        //Project delivery plan(PDP)
+		pdop.pdp_Matrix();
+		
+		cu.selectByVisibleText(pdp_ui.getExecp6(),ev.execp6);
+		cu.waitForPageToLoad();
+		ab.getSubmitbutton().click();
+		cu.waitForPageToLoad();
+		login.logout();
+		//**********CP6 exe dession **********
+		if(ev.execp6.equals("Yes")){
+			b.boardApproval();
+		}
+		//driver.close();
+		//Delivery Review
+		pdop.deveryreview();
+		//**********OD approval **************
+		pdop.obtainpracticalcomplition();
+		
+		cu.selectByVisibleText(pdp_ui.getOpc_cp8(), ev.execp8);
+		ab.getSubmitbutton().click();
+		login.logout();
+		//***********CP8 exe dession **********
+		if(ev.certificateobtained.equals("No")||ev.retationapplied.equals("No")||ev.onmSubmitted.equals("No")||ev.snagListIdentified.equals("No")||ev.internalCompletionDocument.equals("No")||ev.execp8.equals("Yes")){
+			b.boardApproval();
+		}
+		
+		pdop.postpracticalcomplition();
+		cu.selectByVisibleText(pdp_ui.getPpc_cp9(), ev.execp9);
+		ab.getSubmitbutton().click();
+		login.logout();
+		//***********CP9 exe dession **********
+		if(ev.finalAccountAgreement.equals("No")||ev.finalRetentionPaid.equals("No")||ev.projectDocumentArchived.equals("No")||ev.projectDebrief.equals("No")||ev.subContractAccountSettled.equals("No")||ev.closureofProject.equals("No")||ev.bondsGuarantees_Resolved.equals("No")||ev.execp9.equals("Yes")){
+			b.boardApproval();
+		}
+		
+		log.info("Monorail Test script ended....");
+	}
+	//SD approval estimated size
+	public static void sdApproval() throws IOException, InterruptedException {
+		
+		login.loginSD();
+		cu.blindWait();
+		b.projectname_ReviewApproval();
+		ab.getComments().sendKeys("SD Approval...");
+		ab.getApprove_Button().click();
+		login.logout();
+	}
+public static void clApproval() throws IOException, InterruptedException {
+		
+		login.loginCL();
+		cu.blindWait();
+		//b.projectname_ReviewApproval();
+				
+		ab.getComments().sendKeys("Prepare quote CL Approval...");
+		//Authorize button
+		driver.findElement(By.id("authorise")).click();
+		cu.waitForPageToLoad();
+		login.logout();
+	}
+
+//status of submitted quote Matrix flow
+public static void statusQuotesubmit_(String customerCommitmentType,String quoteStatus) throws IOException, InterruptedException{
+		
+	 //login.loginSL();
+	 cu.waitForPageToLoad();
+	 // String rtqType= driver.findElement(By.xpath("//tr[td[@title='"+wb.getXLData(1, 2, 1)+"']]/td[6]")).getText();
+	 String taskName = PropertiesUtil.getPropValues("status_ofSubmitted_Quote");
+	 b.projectTaskName(taskName);
+	 cu.waitForPageToLoad();
+	 log.info("quotestatuscp2cp3 : "+quoteStatus);
+	 
+	 cu.selectByVisibleText(ccq.getQuoteStatus(),quoteStatus);
+	 cu.waitForPageToLoad();
+	 	if(quoteStatus.equals("Customer Commitment Received")){
+	 		{
+	 			cu.selectByVisibleText(ccq.getCustomerCommitmentType(), customerCommitmentType);
+	 			
+	 			if(!ev.customerCommitmentType_Verbal.equals(customerCommitmentType)){
+	 			ccq.getUploadDoc_StatusofSubmitQuote().click();
+	 			projectMethods_Small_Works.linktoFileupload();
+	 			}
+	 		}
+	 ab.getComments().sendKeys("Quote status updated as "+quoteStatus);
+	 ccq.getSubmit().click();
+	 
+	//Customer commitment acceptance logic
+	 	CCAlogic_Matrix(customerCommitmentType);
+	 	}
+	 	
+	 	else if(quoteStatus.equals(ev.quoteStatusAmendBid)){
+	
+		 ab.getComments().sendKeys("Quote status is Amend Bid");
+		 ccq.getSubmit().click();	 
+		 monorail.prepareQuotecp2cp3();
+		 cu.selectByVisibleText(prepare_Quoteui.getExecp3(),ev.exeCP3);
+		 prepare_Quoteui.getQuoteprepared().click();
+		 login.logout();
+		 //Path
+		 b.pathdessioncp2cp3(ev.estimatedSize,ev.location);
+		 
+		 //RTQ 3 in revised prepare quote
+		 String eSizertq3 = wb.getXLData(7, 4, 1);
+		 String locationrtq3 = wb.getXLData(9, 4, 1);
+		 //Quote not in our formate for CL approval
+		 if(ev.cp2cp3ourformat.equals("No")&&(eSizertq3.equalsIgnoreCase("A 0-100k"))
+					&&(locationrtq3.equalsIgnoreCase("Inside M25"))){
+			 clApproval();
+		 }
+		 //CP3 approval
+		 if((ev.cp2cp3bidsheetauthorised.equals("No"))||(ev.exeCP3.equals("Yes"))){
+			 
+			 b.boardApproval();
+		 }
+		 monorail.resubmitQuote();
+		 status_Quote_Resubmit_(ev.estimatedSize,ev.location);
+	 	}
+}
+
+//Status of resubmitted quote used for Matrix
+	 public static void status_Quote_Resubmit_(String estimatedSize,String location) throws IOException, InterruptedException{
+		 //login.loginSL();
+		 cu.waitForPageToLoad();
+		 String taskName = PropertiesUtil.getPropValues("status_ofRe_SubmittedQuote");
+		 b.projectTaskName(taskName);
+		 cu.waitForPageToLoad();
+		 
+		 cu.selectByVisibleText(ccq.getQuoteStatus(),ev.quote_StatusCp3Cp4);
+		 
+		 if(ev.quote_StatusCp3Cp4.equals("Customer Commitment Received")){ 
+		 {
+			 cu.waitForPageToLoad();
+			 
+			 cu.selectByVisibleText(ccq.getCustomerCommitmentType(), ev.customerCommitmentType);
+			 
+			 if(!"Verbal Commitment Received - Under Review".equals(ev.customerCommitmentType)){
+				 ccq.getUploadDoc_StatusofSubmitQuote().click();
+				 projectMethods_Small_Works.linktoFileupload();
+		 		 }
+		 }
+		 ab.getComments().sendKeys("Quote status is Customer Commitment Received");
+		 cu.waitForPageToLoad();
+		 
+		 ab.getSubmitbutton().click();
+		//Customer commitment acceptance logic
+		 	CCAlogic_Matrix(ev.customerCommitmentType);
+		 }
+		 
+		 //******Amend bid******
+		 else if(ev.quote_StatusCp3Cp4.equals("Amend Bid")){
+		 	 
+		 monorail.prepareQuotecp2cp3();
+		 b.pathdessioncp2cp3(estimatedSize,location);
+		 
+		 //Cl approval quation on our format is Np
+		 	if(ev.cp2cp3ourformat.equalsIgnoreCase("No")){
+		 		clApproval();
+		 	}
+		 	//Explicit board approval
+		 	if(ev.exeCP3.equals("Yes")){
+		 		b.boardApproval();
+			}
+		 	//Sd approval
+		 	else if ((ev.ourformat.equals("Yes")&&ev.cp2cp3ourformat.equals("No"))||(ev.cp2cp3bidsheetauthorised.equals("No"))) {
+				MatrixProjects.sdApproval();
+			}
+		 
+		 monorail.resubmitQuote();
+		 status_Quote_Resubmit_(estimatedSize,location);
+		 }
+	 }
+	 
+	//Customer commitment logic matrix, PAG and UKAS(may not work for ukas)
+		 public static void CCAlogic_Matrix(String customerCommitmentType) throws InterruptedException, IOException{
+			 
+			 //customer commitment LOI/Email/Verbal received- status of submitted quote		 
+			 	if(customerCommitmentType.equals(ev.customerCommitmentType_LOI)||customerCommitmentType.equals(ev.customerCommitmentType_Email)
+			 		){
+			 		cu.waitForPageToLoad();
+			 		String taskName = PropertiesUtil.getPropValues("customer_Commitment_Acceptance");
+			 		b.projectTaskName(taskName);
+			 		
+			 		cu.selectByVisibleText(driver.findElement(By.xpath("//select[@id='st_request_for_cw']")),ev.loi_Commencement);
+			 		ab.getComments().sendKeys("Customer Commitment Type");
+			 		
+				//Does LOI Received specifically request for commencement of work? = 'YES'			 	
+			 		if(ev.loi_Commencement.equals("Yes")){
+			 			
+				 	 		cu.waitForPageToLoad();
+				 	 		Thread.sleep(1000);
+				 	 		cu.selectByVisibleText(ccq.getAny_limitation_to_scope(), ev.any_limitation_to_scope);
+				 	 		//Expenditure edit
+				 	 		cu.selectByVisibleText(ccq.getAny_limitation_to_expenditure(), ev.any_limitation_to_expenditure);
+				 	 		if(ev.any_limitation_to_expenditure.equals("Yes")){
+				 	 			String expenditure = wb.getXLData(1, 5, 2);
+				 	 			ccq.getExpenditureLimit().sendKeys(expenditure);
+				 	 		}
+				 	 		cu.selectByVisibleText(ccq.getAny_Time_limit_to_Instructions(), ev.any_Time_limit_to_Instructions);
+				 	 		cu.selectByVisibleText(ccq.getAny_other_Review(), ev.any_other_Review);
+				 	 		
+				 	 		if(ev.any_limitation_to_scope.equals("Yes")||ev.any_limitation_to_expenditure.equals("Yes")||
+				 	 				ev.any_Time_limit_to_Instructions.equals("Yes")||ev.any_other_Review.equals("Yes"))
+				 	 		{
+				 	 			driver().findElement(By.xpath("//input[@id='fileList_flm_LoiDocs']")).click();
+					 	 		projectMethods_Small_Works.linktoFileupload();	
+				 	 		}
+				 	 		if(ev.any_limitation_to_scope.equals("No")&&ev.any_limitation_to_expenditure.equals("No")&&
+				 	 				ev.any_Time_limit_to_Instructions.equals("Yes")&&ev.any_other_Review.equals("Yes"))
+				 	 		{
+				 	 			driver().findElement(By.xpath("//input[@id='fileList_flm_slreponseDocs']")).click();
+					 	 		projectMethods_Small_Works.linktoFileupload();	
+				 	 		}
+				 	 		cu.selectByVisibleText(ccq.getExeCP4(), ev.execp4);
+				 	 		b.submit_Logout();
+				 	 		
+				 	 		/*if(ev.any_limitation_to_scope.equals("No")||ev.any_limitation_to_expenditure.equals("No")||
+				 	 				ev.any_Time_limit_to_Instructions.equals("No")||ev.any_other_Review.equals("No"))
+				 	 		{
+				 	 			g34.opsApproval();
+				 	 		}
+				 	 		
+				 	 		if(ev.any_limitation_to_scope.equals("Yes")||ev.any_limitation_to_expenditure.equals("Yes")||
+				 	 				ev.any_Time_limit_to_Instructions.equals("Yes")||ev.any_other_Review.equals("Yes"))
+				 	 		{
+				 	 			g34.clApproval();
+				 	 			//g34.opsApproval();
+				 	 		}*/
+				 	 		
+				 	 		g34.TandCreview();
+			 		}
+			 	
+			 	//Does LOI Received specifically request for commencement of work? = 'NO'
+				 	if(ev.loi_Commencement.equals("No")){
+				 		
+				 		//Select explicit cp4 approval
+				 		driver.findElement(By.xpath("//input[@id='fileList_flm_slreponseDocs']")).click();
+				 		projectMethods_Small_Works.linktoFileupload();
+				 		driver.findElement(By.xpath("//textarea[@id='response_text']")).sendKeys("Prepared Respponse");
+				 		cu.selectByVisibleText(ccq.getExeCP4(), ev.execp4);
+				 		b.submit_Logout();
+				 		cu.waitForPageToLoad();
+				 		/*//alerts.getAlert_Accept_Yes();
+				 		driver.findElement(By.xpath("//div/a[contains(text(),'Yes')]")).click();*/
+				 		
+				 		/*//Prepare response task
+				 		login.loginSL();
+				 		g34.prepareResponseSales();
+				 		
+				 		//Approve response to sales
+				 		login.loginCL();
+				 		ab.getComments().sendKeys("Commercial approval for sales respose");
+				 		ab.getApprove_Button().click();*/
+				 		
+				 		TaskCP3CP4.TandCreview();
+				 	}
+			 	}
+			 	//this is verbal
+			 	else if(customerCommitmentType.equals(ev.customerCommitmentType_Verbal)){
+				 		cu.waitForPageToLoad();
+				 		String taskName = PropertiesUtil.getPropValues("customer_Commitment_Acceptance");
+				 		b.projectTaskName(taskName);
+			 			driver.findElement(By.xpath("//input[@id='fileList_flm_verbalCommitment']")).click();
+			 			projectMethods_Small_Works.linktoFileupload();
+			 			
+			 			ab.getComments().sendKeys("Verbal commitment acceptance");
+			 			b.submit_Logout();
+			 			
+			 			g34.clApproval();
+		 		}
+				 	
+			 	else if(customerCommitmentType.equals(ev.customerCommitmentType_PO)||customerCommitmentType.equals(ev.customerCommitmentType_SubCon))
+			 	{
+				 //g34.customercommit();
+			 		g34.scopeDocandContractValueVerification();
+			 	}
+		 }
+
+	 }
+	 
+	

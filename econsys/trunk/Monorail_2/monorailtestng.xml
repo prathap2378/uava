@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <suite name="Monorail" thread-count="3" parallel="methods">
+  <test name="moonrail_test">
+    <classes>
+      <class name="adminpage.Login"/>
+      <class name="adminpage.Monorail"/>
+      <class name="adminpage.Monorail"/>
+    </classes>
+  </test>
+</suite> -->
+
+<!-- <suite name="Extent Parallel Test" parallel="methods">
+    
+    <test name="ExtentWithParallelMethods" allow-return-values="true">
+        <classes>
+            <class name="adminpage.Monorail"/>
+        </classes>
+    </test>
+</suite>
+ -->
+<suite name="Parallel test suite" parallel="test" thread-count="2">
+  <test name="Regression 1">
+    <classes>
+      <class name="adminpage.Monorail"/>
+    </classes>
+  </test>
+  
+  <test name="Regression 2">
+    <classes>
+      <class name="adminpage.Monorail"/>
+    </classes>
+  </test>
+</suite>

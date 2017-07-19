@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Econsys_Suite" >
+<listeners>
+<listener class-name="com.econsys.Listeners.TestListener"></listener>
+<listener class-name="com.econsys.Listeners.ExtentReporterNG"></listener>
+</listeners>
+  <!-- <test name="econsystectcases-General">
+    <classes>
+     
+      <class name="com.econsys.testCases.PagesVerification"/>
+      <class name="com.econsys.testCases.LoginVerification"/>
+      <class name="com.econsys.testCases.MyWatchlist"/>
+      <class name="com.econsys.testCases.RtQVerify_Projects"/>
+      <class name="com.econsys.testCases.RtQVerify_SmallWorks"/>
+      <class name="com.econsys.testCases.VerifyDeletion_SamllWorks"/>
+      <class name="com.econsys.testCases.VerifyDeletion_Projects"/>
+      <class name="com.econsys.testCases.VerifyDelegation"/>
+      <class name="com.econsys.testCases.RoleReassignment"/>
+      <class name="com.econsys.testCases.RtQVerify_Projects"/>
+      <class name="com.econsys.testCases.RtQVerify_SmallWorks"/>
+      <class name="com.econsys.testCases.NewLink"/>
+      <class name="com.econsys.testCases.LinkProject"/>
+      <class name="com.econsys.testCases.CustomerCommitmentAcceptance_Projects"/>
+      <class name="com.econsys.testCases.CustomerCommitmentAcceptance_SmallWorks"/>
+      <class name="com.econsys.testCases.ActionButtonsCPApprovalsProjects"/>
+      <class name="com.econsys.testCases.ActionButtonsCPApprovalsSW"/>
+      <class name="com.econsys.testCases.ReviewInvolve_ActionButtons"/>
+      <class name="com.econsys.testCases.RejectSmallWorks"/>
+      <class name="com.econsys.testCases.Delivery_Review"/>
+      <class name="com.econsys.testCases.smallWork_flow"/>
+      <class name="com.econsys.testCases.CP1_CP9flowTest"/> 
+      
+    </classes>
+  </test> Test -->
+  <test name="UKAS">
+  <classes>
+ 
+      <class name="com.econsys.testCases.LoginVerification"/>
+      <class name="com.econsys.testCases.PagesVerification"/>
+      <class name="com.econsys.ukasProjects.MyWatchlist"/>
+      <!-- <class name="com.econsys.ukasProjects.UkasFlow"</class> -->
+     
+  </classes>
+  </test>
+  <test name="Matrix">
+  <classes>
+  
+      <class name="com.econsys.testCases.LoginVerification"/>
+      <class name="com.econsys.testCases.PagesVerification"/>
+      <class name="com.econsys.ukasProjects.MyWatchlist"/>
+      <!-- <class name="com.econsys.ukasProjects.UkasFlow"</class> -->
+     
+  </classes>
+  </test>
+</suite>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="methods" thread-count="3">
+  <listeners>
+	<listener class-name="com.monorail.test.WebDriverListener"></listener>
+  </listeners>
+  <test name="Test">
+  	<parameter name="browserName" value="chrome"></parameter>
+    <classes>
+      <class name="adminpage.MonorailTestConcurrent"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

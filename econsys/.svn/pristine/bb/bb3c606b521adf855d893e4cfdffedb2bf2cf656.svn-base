@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Econsys_Suite]">
+  <listeners>
+    <listener class-name="com.econsys.Listeners.TestListener"/>
+    <listener class-name="com.econsys.Listeners.ExtentReporterNG"/>
+  </listeners>
+  <test name="UKAS(failed)">
+    <classes>
+      <class name="com.econsys.testCases.PagesVerification">
+        <methods>
+          <include name="verifyAllPages"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.PagesVerification -->
+      <class name="com.econsys.testCases.MyWatchlist">
+        <methods>
+          <include name="verifyApprovals_to_MyWatchList"/>
+          <include name="verifyAllProjects_to_WatchList"/>
+        </methods>
+      </class> <!-- com.econsys.testCases.MyWatchlist -->
+    </classes>
+  </test> <!-- UKAS(failed) -->
+</suite> <!-- Failed suite [Econsys_Suite] -->
