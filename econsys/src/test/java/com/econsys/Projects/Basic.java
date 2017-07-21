@@ -67,9 +67,10 @@ public class Basic extends Driver {
 	  
 	  points=wb.getXLData(10,1,1);
 	  nrtq.getPoints().sendKeys(""+points);
-String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='MatrixCS']")).getText();
+	//*[@id='breadcrumbs']/ul/li[1]/a[text()='ASQ']
+String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='ASQ']")).getText();
 log.info("orgName888888888888____"+orgName);
-if("MatrixCS".equalsIgnoreCase(orgName)){
+if(ev.org_ASQ.equalsIgnoreCase(orgName)){
 	  cu.selectByIndex(nrtq.getNeworExis(), 1);
 	  
 	  cu.selectByIndex(nrtq.getQuotationType(), 1);

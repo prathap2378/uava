@@ -61,8 +61,9 @@ public class PagesVerification extends Driver{
 		}else{
 			log.info("Projects Not loading in All Projects----------");
 		}
+	}else {
+		log.info("No data in All Projects table");
 	}
-	log.info("allp is displayed : "+allp);
 		/*allPages.getOptionBtn().click();
 	allPages.getViewOption().click();
 	softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);*/
@@ -89,6 +90,8 @@ public class PagesVerification extends Driver{
 		}else{
 			log.info("Projects Not loading in My Opportunities----------");
 		}
+	}else {
+		log.info("No data in Myopportunities table");
 	}
 	
 	//Project archive
@@ -104,12 +107,13 @@ public class PagesVerification extends Driver{
 		driver.findElement(By.xpath("//img[@onclick='viewDetails("+rowID+")']")).click();;
 		int guidenceNotesdisplayed = driver.findElements(By.xpath("//div[@id='processView_Div']")).size();
 		if(guidenceNotesdisplayed>0){
-			log.info("Projects loading in Project archive********");
+			log.info("Projects loading in Project archive");
 		}else{
-			log.info("Projects Not loading in Project archive----------");
+			log.info("Projects Not loading in Project archive????");
 		}
+	}else {
+		log.info("No data in Project Archive table");
 	}
-	log.info("proArc is displayed : "+proArc);
 	
 	/*allPages.getdetailsLink().click();
 	softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);*/
@@ -132,11 +136,8 @@ public class PagesVerification extends Driver{
 		driver.findElement(By.xpath("//button[@id='actn-btn-"+row_Id+"']")).click();
 		driver.findElement(By.xpath("//span[@id='details_"+row_Id+"']")).click();
 		//softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);
-	}
-	else{
-
-		allPages.getOptionBtn().click();
-		allPages.getdetailsLink().click();
+	}else{
+		log.info("No data in exeecutive dash board");
 		//softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);
 	}
 
@@ -153,7 +154,11 @@ public class PagesVerification extends Driver{
 	if(countPro>2){
 	allPages.getreviewDetailsLink().click();
 	softAssert.assertEquals(allPages.getReviewContent().isDisplayed(), true);
+	}else {
+		log.info("No data in Review table");
 	}
+	
+	
 	//Project Documents
 	allPages.getProDocslink().click();
 	cu.waitForPageToLoad();

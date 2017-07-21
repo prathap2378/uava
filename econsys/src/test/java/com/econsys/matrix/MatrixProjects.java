@@ -113,6 +113,7 @@ public class MatrixProjects extends Driver {
 		 String locationrtq2 = wb.getXLData(4, 4, 1);
 				if((ev.ourformat.equals("No"))&&eSizertq2.equalsIgnoreCase("A 0-100k")
 						&&locationrtq2.equalsIgnoreCase("Inside M25")){
+					log.info("In CL approval");
 					clApproval();
 				}
 		
@@ -166,7 +167,7 @@ public class MatrixProjects extends Driver {
 		ab.getSubmitbutton().click();
 		cu.waitForPageToLoad();
 		login.logout();
-		//**********CP6 exe dession **********
+		//**********CP6 exe dession **********svn
 		if(ev.execp6.equals("Yes")){
 			b.boardApproval();
 		}
@@ -264,6 +265,7 @@ public static void statusQuotesubmit_(String customerCommitmentType,String quote
 		 //Quote not in our formate for CL approval
 		 if(ev.cp2cp3ourformat.equals("No")&&(eSizertq3.equalsIgnoreCase("A 0-100k"))
 					&&(locationrtq3.equalsIgnoreCase("Inside M25"))){
+			 log.info("In CL approval cp2-cp3");
 			 clApproval();
 		 }
 		 //CP3 approval
