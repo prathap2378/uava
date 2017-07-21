@@ -58,6 +58,8 @@ public class EconsysVariables {
 	public String customerCommitmentType_SubCon = "Sub-Contract Received - Under Review";
 	public String customerCommitmentType_PO = "PO Received - Under Review";
 	public String customerCommitmentType_Verbal = "Verbal Commitment Received - Under Review";
+	public String org_Matrix = "MatrixCS";
+	public String org_ASQ = "ASQ";
 	
 	{
 		try {
