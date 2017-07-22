@@ -49,9 +49,6 @@
 	<td  align="center">Date:<input type="date" id="date_event" name="date_event"/></td>
 	<td  align="right">Search:<input type="text" id="search_event" name="search_event" size="100%" value="search here"/></td>
 	</tr>
-	
-
-
   <tr>
     <th align="center" width="50%">
     <div align="center">
@@ -65,7 +62,11 @@
   </tr>
 </table>
 
-<script src=main.js></script>
+<script src="main.js" type="text/javascript">
+
+</script> 
+
 </form>
 </body>
 </html>
+
