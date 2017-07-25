@@ -104,25 +104,25 @@ public class MatrixProjects extends Driver {
 		cu.selectByVisibleText(prepare_Quoteui.getExpliciteapprovalatgateway2(),ev.exeCP2);
 		prepare_Quoteui.getQuoteprepared().click();
 		login.logout();
-		
-		b.pathdession(estimatedSize,location);
-		
-		//For CL approval in case of Quotation in our format is No
+
 		//RTQ 2 in prepare quote
 		String eSizertq2 = wb.getXLData(2, 4, 1);
-		 String locationrtq2 = wb.getXLData(4, 4, 1);
+		String locationrtq2 = wb.getXLData(4, 4, 1);
+		
+		b.pathdession_Mat(eSizertq2,locationrtq2);
+		
+		//For CL approval in case of Quotation in our format is No
 				if((ev.ourformat.equals("No"))&&eSizertq2.equalsIgnoreCase("A 0-100k")
 						&&locationrtq2.equalsIgnoreCase("Inside M25")){
 					log.info("In CL approval");
 					clApproval();
 				}
-		
 				//**********CP2 exe dession**************
 				if(ev.exeCP2.equals("Yes")){
 					b.boardApproval();
 				}
 				//If condition does not match for SD approval
-				else if((ev.bidsheetauthorised.equals("No"))){
+				else if(ev.bidsheetauthorised.equals("No")||eSizertq2.equalsIgnoreCase(ev.estimatedSize_)||locationrtq2.equalsIgnoreCase(ev.location_other)){
 					MatrixProjects.sdApproval();
 				}
 		
@@ -130,9 +130,15 @@ public class MatrixProjects extends Driver {
 		statusQuotesubmit_(ev.customerCommitmentType, ev.quote_StatusCp2Cp3);
 		
 		//**********CP4 exe dession New Flow**************
-		if((ev.clarification.equals("No"))||(ev.execp4.equals("Yes"))){
+		if((ev.clarification.equals("No"))&&(ev.customerCommitmentType.equalsIgnoreCase(ev.customerCommitmentType_PO)||ev.customerCommitmentType.equalsIgnoreCase(ev.customerCommitmentType_SubCon))){
+			sdApproval();
+		}
+		if((ev.execp4.equals("Yes"))){
 			b.boardApproval();
 		}
+		
+		g45.submitResponse();
+		
 		g45.apointkeystaf();
 		//driver.quit();
 		//Commercial suit is removed in flow for matrix
@@ -206,7 +212,8 @@ public class MatrixProjects extends Driver {
 		ab.getApprove_Button().click();
 		login.logout();
 	}
-public static void clApproval() throws IOException, InterruptedException {
+	
+	public static void clApproval() throws IOException, InterruptedException {
 		
 		login.loginCL();
 		cu.blindWait();
@@ -256,25 +263,28 @@ public static void statusQuotesubmit_(String customerCommitmentType,String quote
 		 cu.selectByVisibleText(prepare_Quoteui.getExecp3(),ev.exeCP3);
 		 prepare_Quoteui.getQuoteprepared().click();
 		 login.logout();
-		 //Path
-		 b.pathdessioncp2cp3(ev.estimatedSize,ev.location);
 		 
+		 //Path
 		 //RTQ 3 in revised prepare quote
 		 String eSizertq3 = wb.getXLData(7, 4, 1);
 		 String locationrtq3 = wb.getXLData(9, 4, 1);
+		 b.pathdessioncp2cp3_Mat(eSizertq3,locationrtq3);
+		 
 		 //Quote not in our formate for CL approval
 		 if(ev.cp2cp3ourformat.equals("No")&&(eSizertq3.equalsIgnoreCase("A 0-100k"))
 					&&(locationrtq3.equalsIgnoreCase("Inside M25"))){
 			 log.info("In CL approval cp2-cp3");
 			 clApproval();
 		 }
-		 //CP3 approval
-		 if((ev.cp2cp3bidsheetauthorised.equals("No"))||(ev.exeCP3.equals("Yes"))){
-			 
-			 b.boardApproval();
+		 //CP3 approval board
+if(ev.exeCP3.equals("Yes")){
+	b.boardApproval();
 		 }
-		 monorail.resubmitQuote();
-		 status_Quote_Resubmit_(ev.estimatedSize,ev.location);
+else if((ev.cp2cp3bidsheetauthorised.equals("No"))||eSizertq3.equalsIgnoreCase(ev.estimatedSize_)||locationrtq3.equalsIgnoreCase(ev.location_other)){
+	sdApproval();
+}
+monorail.resubmitQuote();
+status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 	 	}
 }
 
@@ -311,7 +321,10 @@ public static void statusQuotesubmit_(String customerCommitmentType,String quote
 		 else if(ev.quote_StatusCp3Cp4.equals("Amend Bid")){
 		 	 
 		 monorail.prepareQuotecp2cp3();
-		 b.pathdessioncp2cp3(estimatedSize,location);
+		 
+		 String eSizertq3 = wb.getXLData(7, 4, 1);
+		 String locationrtq3 = wb.getXLData(9, 4, 1);
+		 b.pathdessioncp2cp3_Mat(eSizertq3,locationrtq3);
 		 
 		 //Cl approval quation on our format is Np
 		 	if(ev.cp2cp3ourformat.equalsIgnoreCase("No")){

@@ -68,9 +68,9 @@ public class Basic extends Driver {
 	  points=wb.getXLData(10,1,1);
 	  nrtq.getPoints().sendKeys(""+points);
 	//*[@id='breadcrumbs']/ul/li[1]/a[text()='ASQ']
-String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='ASQ']")).getText();
+String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='"+ev.org_Name+"']")).getText();
 log.info("orgName888888888888____"+orgName);
-if(ev.org_ASQ.equalsIgnoreCase(orgName)){
+if(ev.org_Name.equalsIgnoreCase(orgName)){
 	  cu.selectByIndex(nrtq.getNeworExis(), 1);
 	  
 	  cu.selectByIndex(nrtq.getQuotationType(), 1);
@@ -198,6 +198,47 @@ public void pathdession(String estimatedSize,String location) throws Interrupted
 			ri.involveCLcp2cp3();
 		}
 	}
+	
+	//green-amber-red 'Decide path'
+	public void pathdession_Mat(String estimatedSize,String location) throws InterruptedException, IOException{
+			
+			if(estimatedSize.equals("C 250-500k")){
+				System.out.println("Eng review path");
+			ri.reviewEL();
+			}
+			if(location.equals("South East")){
+				
+			ri.reviewCL();
+			}
+			if(estimatedSize.equals("D 500-1000k")){
+				System.out.println("Eng Involve path");
+				ri.involveEL();
+			}
+			if(location.equals("Other")){
+				System.out.println("Comer Involve path");
+				ri.involveCL();
+			}
+		}
+		
+		public void pathdessioncp2cp3_Mat(String estimatedSize,String location) throws InterruptedException, IOException{
+			
+			if(estimatedSize.equals("C 250-500k")){
+				
+			ri.reviewEL();
+			}
+			if(location.equals("South East")){
+				
+			ri.reviewCL();
+			}
+			if(estimatedSize.equals("D 500-1000k")){
+				
+				ri.involveEL();
+			}
+			if(location.equals("Other")){
+				
+				ri.involveCLcp2cp3();
+			}
+		}
 	//to get Action button of Project any where in portal 
 	//this can be used to find Action button for specific project
 	public void actionButton() throws IOException{

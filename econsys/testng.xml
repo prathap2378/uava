@@ -8,11 +8,8 @@
     </listeners>
   <!-- <test name="econsystectcases-General">
     <classes>
-    
-    
      
      <class name="com.econsys.testCases.PagesVerification"/>
-      
      <class name="com.econsys.testCases.LoginVerification"/>
       <class name="com.econsys.testCases.MyWatchlist"/>
       <class name="com.econsys.testCases.RtQVerify_Projects"/>
@@ -38,6 +35,7 @@
   
  <!--   <test name="UKAS">
   <classes>
+  
  <class name="com.econsys.ukasProjects.UkasFlow"</class> 
     <class name="com.econsys.ukasProjects.URL"/>
      <class name="com.econsys.testCases.MyWatchlist"/>
@@ -49,7 +47,8 @@
   
   <test name="Matrix">
   <classes>
- 	 <class name="com.econsys.matrix.ReviewInvolve_ActionButtons"/>
+  <class name="com.econsys.testCases.PagesVerification"/>
+ 	 <!-- <class name="com.econsys.matrix.ReviewInvolve_ActionButtons"/> -->
      <!-- <class name="com.econsys.testCases.MyWatchlist"/>
      <class name="com.econsys.testCases.VerifyDelegation"/>
      <class name="com.econsys.testCases.RoleReassignment"/> -->

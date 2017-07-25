@@ -1,4 +1,3 @@
-package com.econsys.Projects;
 /*package com.econsys.Projects;
 
 import java.awt.AWTException;
