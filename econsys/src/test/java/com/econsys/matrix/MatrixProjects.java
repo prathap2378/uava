@@ -82,7 +82,6 @@ public class MatrixProjects extends Driver {
 		//Assign Sales Leader
 		String userName = wb.getXLData(1, 0,0);
 		String sl=wb.getXLData(10, 0, 0);
-		
 		if(!sl.equals(userName)){
 		monorail.ASL();
 		}
