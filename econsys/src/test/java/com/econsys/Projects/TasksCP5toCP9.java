@@ -141,6 +141,7 @@ public class TasksCP5toCP9 extends Driver {
 
 	//Payment terms
 	  cu.blindWait();
+	  log.info("commmercial suite payments ");
 	  cu.selectByIndex(ak.getDraftCommercialSuitProduced(),2);
 	  /*if(ev.draftproduced.equals("Yes")){
 	  
@@ -149,7 +150,7 @@ public class TasksCP5toCP9 extends Driver {
 	  }*/
 	  ak.getPayment_Terms().sendKeys("15");
 	  ak.getDays_From().sendKeys("3");
-	  
+	  log.info("completed");
 	  /*Value forecast grid details and adding milestone values*/
 	  cu.blindWait();
 	  pdp_ui.getAddnewvalueforcast().click();
@@ -159,14 +160,14 @@ public class TasksCP5toCP9 extends Driver {
 	  pdp_ui.getDate().click();
 	  String milestonevalue = wb.getXLData(1,5, 2);
 	  pdp_ui.getContractWorks().sendKeys(""+milestonevalue);
-	  pdp_ui.getVariation().sendKeys("5000");
-	  pdp_ui.getClaim().sendKeys("6000");
+	  //pdp_ui.getVariation().sendKeys("5000");
+	  //pdp_ui.getClaim().sendKeys("6000");
 	  pdp_ui.getCommentsMilestone().sendKeys("Application is added...");
-	  ab.getPop_Comments().sendKeys("Addnewvalueforcast");
-	  cu.blindWait();
+	  //ab.getPop_Comments().sendKeys("Addnewvalueforcast");
 	  pdp_ui.getSavemilestone().click();
 	  
 	  cu.blindWait();
+	  Thread.sleep(1000);
 	  driver().findElement(By.xpath("//input[@id='fileList_flm_milestoneDocument']")).click();
 	  projectMethods_Small_Works.linktoFileupload();
 	  

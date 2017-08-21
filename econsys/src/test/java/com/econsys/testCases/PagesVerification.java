@@ -58,15 +58,16 @@ public class PagesVerification extends Driver{
 		
 		if(guidenceNotesdisplayed>0){
 			log.info("Projects loading in All Projects********");
+			softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);
 		}else{
 			log.info("Projects Not loading in All Projects----------");
 		}
 	}else {
 		log.info("No data in All Projects table");
 	}
-		/*allPages.getOptionBtn().click();
-	allPages.getViewOption().click();
-	softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);*/
+		//allPages.getOptionBtn().click();
+	//allPages.getViewOption().click();
+	
 	
 	//My Opportunities
 	allPages.getMyOpplink().click();
@@ -74,9 +75,9 @@ public class PagesVerification extends Driver{
 	cu.waitForPageToLoad();
 	boolean myOpp = Driver.driver().findElement(By.xpath("//div[contains(text(),'My Opportunities')]")).isDisplayed();
 	log.info("myOpp is displayed : "+myOpp);
-		/*allPages.getOptionBtn().click();
-	allPages.getViewOption().click();
-	softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);*/
+	//allPages.getOptionBtn().click();
+	//allPages.getViewOption().click();
+	
 	//Details
 	if(cout>2){
 		String row_Id = driver.findElement(By.xpath("//div[@id='gview_delegatestaticGrid']//tr[2]")).getAttribute("id");
@@ -87,6 +88,7 @@ public class PagesVerification extends Driver{
 		
 		if(guidenceNotesdisplayed>0){
 			log.info("Projects loading in My Opportunities********");
+			softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);
 		}else{
 			log.info("Projects Not loading in My Opportunities----------");
 		}
@@ -94,12 +96,12 @@ public class PagesVerification extends Driver{
 		log.info("No data in Myopportunities table");
 	}
 	
+	
 	//Project archive
 	allPages.getProArchLink().click();
 	log.info("Project archive");
 	cu.waitForPageToLoad();
 	boolean proArc = Driver.driver().findElement(By.xpath("//div[contains(text(),'Project Archive')]")).isDisplayed();
-	
 	int couuPro = driver.findElements(By.xpath("//div[@id='gview_info1']//tr")).size();
 	if(couuPro>2){
 		
@@ -114,7 +116,6 @@ public class PagesVerification extends Driver{
 	}else {
 		log.info("No data in Project Archive table");
 	}
-	
 	/*allPages.getdetailsLink().click();
 	softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);*/
 
@@ -127,7 +128,6 @@ public class PagesVerification extends Driver{
 	log.info("Exe is displayed : "+exe);
 	/*allPages.getdetailsLink().click();
 	softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);*/
-	
 	int exe_count = driver.findElements(By.xpath("//div[@id='gview_info1']//tr")).size();
 	if(exe_count>2){
 		
@@ -158,7 +158,6 @@ public class PagesVerification extends Driver{
 		log.info("No data in Review table");
 	}
 	
-	
 	//Project Documents
 	allPages.getProDocslink().click();
 	cu.waitForPageToLoad();
@@ -180,18 +179,29 @@ public class PagesVerification extends Driver{
 	softAssert.assertEquals(allPages.getGuidanceNotesaccordion().isDisplayed(),true);
 	}
 	
-	allPages.getAutoApplink().click();
+	/*allPages.getAutoApplink().click();
 	cu.waitForPageToLoad();
 	log.info("Auto approval");
-	softAssert.assertEquals(allPages.getAutoApproval().isDisplayed(),true);
+	softAssert.assertEquals(allPages.getAutoApproval().isDisplayed(),true);*/
 	
 	allPages.getBusinessRuleslink().click();
 	cu.waitForPageToLoad();
 	log.info("Business rules");
 	softAssert.assertEquals(allPages.getBusinessRules().isDisplayed(),true);
+	//Commercial link
+	driver.findElement(By.xpath("//li[starts-with(@id,'_businessrules_')]/a[contains(text(),' Commercial ')]")).click();
+	//Estimated link
+	driver.findElement(By.xpath("//li[starts-with(@id,'_businessrules_')]/a[contains(text(),' Estimated Size Configuration ')]")).click();
+	//Margin config link
+	driver.findElement(By.xpath("//li[starts-with(@id,'_businessrules_')]/a[contains(text(),' Margin Configuration ')]")).click();
+	//Customer commitment link
+	driver.findElement(By.xpath("//li[starts-with(@id,'_businessrules_')]/a[contains(text(),' Customer Commitment ')]")).click();
+	//Small works Link
+	driver.findElement(By.xpath("//li[starts-with(@id,'_businessrules_')]/a[contains(text(),' Small Works ')]")).click();
 	
 	allPages.getUserListlink().click();
 	cu.waitForPageToLoad();
+	driver.findElement(By.xpath("//li[starts-with(@id,'_deligatertq_')]/a[contains(text(),' Role Management ')]")).click();
 	log.info("user list");
 	softAssert.assertEquals(allPages.getUserList().isDisplayed(),true);
 	
@@ -202,6 +212,11 @@ public class PagesVerification extends Driver{
 	
 	allPages.getGridMasterlink().click();
 	cu.waitForPageToLoad();
+	driver.findElement(By.xpath("//li[starts-with(@id,'_curdgridMasters_')]/a[contains(text(),' Sub-Contractor Procurement ')]")).click();
+	driver.findElement(By.xpath("//li[starts-with(@id,'_curdgridMasters_')]/a[contains(text(),' Cost Code ')]")).click();
+	driver.findElement(By.xpath("//li[starts-with(@id,'_curdgridMasters_')]/a[contains(text(),' Sales to Operations Handover ')]")).click();
+	driver.findElement(By.xpath("//li[starts-with(@id,'_curdgridMasters_')]/a[contains(text(),' Rule Elements ')]")).click();
+	driver.findElement(By.xpath("//li[starts-with(@id,'_curdgridMasters_')]/a[contains(text(),' Small Works ')]")).click();
 	log.info("Grid master");
 	softAssert.assertEquals(allPages.getGridMasters().isDisplayed(),true);
 	
@@ -212,6 +227,10 @@ public class PagesVerification extends Driver{
 	
 	allPages.getSettingslink().click();
 	cu.waitForPageToLoad();
+	
+	driver.findElement(By.xpath("//li[starts-with(@id,'_deligatertq_')]/a[contains(text(),' Dropbox ')]")).click();
+	
+	driver.findElement(By.xpath("//li[starts-with(@id,'_deligatertq_')]/a[contains(text(),' Prompts and Alerts Send out Time ')]")).click();
 	log.info("settings");
 	softAssert.assertEquals(allPages.getSettings().isDisplayed(),true);
 	
@@ -220,7 +239,7 @@ public class PagesVerification extends Driver{
 	log.info("PromptsAlerts");
 	softAssert.assertEquals(allPages.getPromptsAlerts().isDisplayed(),true);
 	
-	softAssert.assertAll();
+	//softAssert.assertAll();
 }
 /*	@Test(priority=2)
 	public void testMyOpp() throws IOException, InterruptedException{

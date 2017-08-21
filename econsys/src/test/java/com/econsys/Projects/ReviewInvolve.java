@@ -26,8 +26,19 @@ public class ReviewInvolve extends Driver {
 	
   //@Test
   //*********Engg review********
-  
- 
+	//*[@id="gate2"]/div/ul/li[1]/a
+	public void reviewInvolvecommon() throws IOException, InterruptedException {
+		  
+	      cu.waitForPageToLoad();
+		  ab.getReviewinvolvetasks().sendKeys(Keys.RETURN);
+		  b.projectname_Reviews();
+		  cu.waitForPageToLoad();
+
+		  ab.getComments().sendKeys("Review Involves...");
+		  ab.getApprove_Button().click();
+		  login.logout();
+	  }
+	
   public void reviewEL() throws IOException, InterruptedException {
 	  
       login.loginEL();
@@ -35,10 +46,7 @@ public class ReviewInvolve extends Driver {
 	  ab.getReviewinvolvetasks().sendKeys(Keys.RETURN);
 	  b.projectname_Reviews();
 	  Thread.sleep(1000);
-	  /*cu.selectByVisibleText(eri.getReviewProjectType(), "Yes");
-	  cu.selectByVisibleText(eri.getReviewBuldingtype(), "Yes");
-	  cu.selectByVisibleText(eri.getReviewEnduserindustrysector(), "Yes");
-	  cu.selectByVisibleText(eri.getReviewProduct(), "Yes");*/
+
 	  select_Dropdowns();
 	  ab.getComments().sendKeys("Engg review");
 	  ab.getApprove_Button().click();

@@ -148,8 +148,7 @@ public boolean smallworkForm() throws InterruptedException, IOException, ClassNo
 			
 			driver.findElement(By.xpath("//input[@id='fileList_flm_quoteDocument']")).click();
 			linktoFileupload();
-			
-			commonutils.selectByVisibleText(prepare_Quoteui.getBidSheetAuthorised(), wb.getXLData(15, 5, 0));
+			commonutils.selectByVisibleText(prepare_Quoteui.getBidSheetAuthorised(), wb.getXLData(4, 5, 0));
 			prepare_Quoteui.getComments().sendKeys("Small Work form ...");
 			rtq.getSubmit().click();
 			

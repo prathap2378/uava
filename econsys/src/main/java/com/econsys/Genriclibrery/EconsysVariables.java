@@ -17,8 +17,8 @@ public class EconsysVariables {
 	//public String prjname;
 	public String prjname1;
 	//RTQ inputs
-	public String estimatedSize, location, estimatedSize_, location_other;
-	
+	public String estimatedSize,location_inside, estimatedSize0to100k_, location, estimatedSize500_, 
+	location_other, location_SouthEast, estimatedSize250_;
 	//Cp1-Cp3
 	public String ourformat, bidsheetauthorised, exeCP2, cp2cp3ourformat, cp2cp3bidsheetauthorised, exeCP3;
 	//Status of Submit Resubmit quote
@@ -60,10 +60,18 @@ public class EconsysVariables {
 	public String customerCommitmentType_PO = "PO Received - Under Review";
 	public String customerCommitmentType_Verbal = "Verbal Commitment Received - Under Review";
 	public String org_Name = "MatrixCS";
+	public String el,cl,pl;
 	//public String org_ASQ = "ASQ";MatrixCS;
 	
 	{
-		estimatedSize_ = "D 500-1000k";
+		//amber
+		
+		estimatedSize0to100k_ = "A 0-100k";
+		location_inside = "Inside M25";
+		estimatedSize250_ = "C 250-500k";
+		location_SouthEast = "South East";
+		//Red
+		estimatedSize500_ = "D 500-1000k";
 		location_other = "Other";
 		try {
 			//Project Name *****
@@ -111,6 +119,9 @@ public class EconsysVariables {
 			execp4=wb.getXLData(18,7, 0);
 			
 			//cp4-cp5 variables
+			el=wb.getXLData(21,5, 0);
+			cl=wb.getXLData(23,5, 0);
+			pl=wb.getXLData(25,5, 0);
 			draftproduced=wb.getXLData(2,9, 0);
 			exe5_SalestoOper=wb.getXLData(24,7, 0);
 	   		exeCP5_OperationAccep=wb.getXLData(8, 9, 0);

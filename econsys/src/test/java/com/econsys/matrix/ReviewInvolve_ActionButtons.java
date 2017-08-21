@@ -62,7 +62,7 @@ public class ReviewInvolve_ActionButtons extends Driver{
 	    b.submit_Logout();
 	    
 		//***********CP1 exe dession************
-		if((estimatedSize.equals("D 500+"))||(location.equals("Other"))) {
+		if((estimatedSize.equals("D 500-1000k"))||(location.equals("Other"))) {
 			b.boardApproval();
 		}
 		String userName = wb.getXLData(1, 0,0);
@@ -78,7 +78,7 @@ public class ReviewInvolve_ActionButtons extends Driver{
 		prepareQuoteUI.getQuoteprepared().click();
 		login.logout();
 		
-		if(estimatedSize.equals("D 500+")){
+		if(estimatedSize.equals("D 500-1000k")){
 			System.out.println("Engineering Involvement path");
 			login.loginEL();
 			  Thread.sleep(1000);
@@ -156,7 +156,7 @@ public class ReviewInvolve_ActionButtons extends Driver{
 		prepareQuoteUI.getQuoteprepared().click();
 		login.logout();
 		
-		if(estimatedSize.equals("D 500+")){
+		if(estimatedSize.equals("D 500-1000k")){
 			System.out.println("Engineering Involvement path");
 			login.loginEL();
 			  Thread.sleep(1000);
@@ -227,10 +227,9 @@ public class ReviewInvolve_ActionButtons extends Driver{
 	    b.submit_Logout();
 	    
 		//***********CP1 exe dession************
-		if((estimatedSize.equals("D 500+"))||(location.equals("Other"))) {
+		if((estimatedSize.equals("D 500-1000k"))||(location.equals("Other"))) {
 			b.boardApproval();
 		}
-
 		String userName = wb.getXLData(1, 0,0);
 		String sl=wb.getXLData(10, 0, 0);
 //Assign sales leader bypass		

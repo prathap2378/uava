@@ -426,6 +426,16 @@ public class RTQForm_Ui {
 		return manageAccprdion;
 	}
 	
+	@FindBy(xpath="//*[@id='st_ats_quoterRefNumber']")
+	private WebElement quoterRefNumber;
+	
+	/**
+	 * @return the quoterRefNumber
+	 */
+	public WebElement getQuoterRefNumber() {
+		return quoterRefNumber;
+	}
+
 	//new Fields added in rtq matrixsee
 	/**
 	 * @return the neworExis

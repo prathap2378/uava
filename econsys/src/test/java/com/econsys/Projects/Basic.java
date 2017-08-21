@@ -53,8 +53,6 @@ public class Basic extends Driver {
 	  String paddress=wb.getXLData(6,1,1);
 	  nrtq.getProjectAddres().sendKeys(paddress);
 	  
-	  
-	  
 	  String consultant=wb.getXLData(4,1,1);
 	  nrtq.getConsultantName().sendKeys(consultant);
 	  
@@ -62,25 +60,24 @@ public class Basic extends Driver {
 	  nrtq.getCustomerName().sendKeys(customer);
 	  
 	  // select Size
-	  // estimatedSize=wb.getXLData(8, 1, 1);
 	  cu.selectByVisibleText(nrtq.getEstimatedSize(), estimatedSize);
 	  
 	  points=wb.getXLData(10,1,1);
 	  nrtq.getPoints().sendKeys(""+points);
-	//*[@id='breadcrumbs']/ul/li[1]/a[text()='ASQ']
-String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='"+ev.org_Name+"']")).getText();
-log.info("orgName888888888888____"+orgName);
-if(ev.org_Name.equalsIgnoreCase(orgName)){
-	  cu.selectByIndex(nrtq.getNeworExis(), 1);
-	  
-	  cu.selectByIndex(nrtq.getQuotationType(), 1);
-	  
-	  cu.selectByIndex(nrtq.getLeadSource(), 1);
-	  
-	  //anticipated date
-	  nrtq.getAnticipatedDate().click();
-	  driver.findElement(By.xpath("//*[@id='ui-datepicker-div']/table/tbody/tr[2]/td[5]/a")).click();
-}
+
+	  //Matrix specific fields 
+	  String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='"+ev.org_Name+"']")).getText();
+	  if(ev.org_Name.equalsIgnoreCase(orgName)){
+	
+		  double i = Math.random();
+		  nrtq.getQuoterRefNumber().sendKeys(""+i);
+		  cu.selectByIndex(nrtq.getNeworExis(), 1);
+		  cu.selectByIndex(nrtq.getQuotationType(), 1);
+		  cu.selectByIndex(nrtq.getLeadSource(), 1);
+		  //anticipated date
+		  nrtq.getAnticipatedDate().click();
+		  driver.findElement(By.xpath("//*[@id='ui-datepicker-div']/div[2]/button")).click();
+	  }
 	  //Engineering
 	  //productSpecified=wb.getXLData(12,1,1);
 	  cu.selectByIndex(nrtq.getProductSpecifieddd(),1);
@@ -203,40 +200,35 @@ public void pathdession(String estimatedSize,String location) throws Interrupted
 	public void pathdession_Mat(String estimatedSize,String location) throws InterruptedException, IOException{
 			
 			if(estimatedSize.equals("C 250-500k")){
-				System.out.println("Eng review path");
-			ri.reviewEL();
+				login.loginEL();
+			    ri.reviewInvolvecommon();
 			}
 			if(location.equals("South East")){
-				
-			ri.reviewCL();
+				login.loginCL();
+				ri.reviewInvolvecommon();
 			}
 			if(estimatedSize.equals("D 500-1000k")){
-				System.out.println("Eng Involve path");
 				ri.involveEL();
 			}
 			if(location.equals("Other")){
-				System.out.println("Comer Involve path");
 				ri.involveCL();
 			}
 		}
-		
-		public void pathdessioncp2cp3_Mat(String estimatedSize,String location) throws InterruptedException, IOException{
+	public void pathdessioncp2cp3_Mat(String estimatedSize,String location) throws InterruptedException, IOException{
 			
 			if(estimatedSize.equals("C 250-500k")){
-				
-			ri.reviewEL();
+				login.loginEL();
+			    ri.reviewInvolvecommon();
 			}
 			if(location.equals("South East")){
-				
-			ri.reviewCL();
+				login.loginCL();
+				ri.reviewInvolvecommon();
 			}
 			if(estimatedSize.equals("D 500-1000k")){
-				
 				ri.involveEL();
 			}
 			if(location.equals("Other")){
-				
-				ri.involveCLcp2cp3();
+				ri.involveCL();
 			}
 		}
 	//to get Action button of Project any where in portal 
@@ -324,8 +316,8 @@ public void projectname_ReviewApproval() throws InterruptedException, IOExceptio
 	//label[@id='myInvolved']
 	cu.waitForPageToLoad();
 	driver.findElement(By.xpath("//label[@id='groupApprovals']")).click();
-	taskNameCP = driver.findElement(By.xpath("//td[@title="+ev.projectName()+"]//preceding-sibling::td[3]")).getAttribute("title");
-	System.out.println("Task Name "+taskNameCP);//td[@title="+ev.projectName()+"]//preceding-sibling::td[3]
+	//taskNameCP = driver.findElement(By.xpath("//td[@title="+ev.projectName()+"]//preceding-sibling::td[1]")).getAttribute("title");
+	//System.out.println("Task Name "+taskNameCP);//td[@title="+ev.projectName()+"]//preceding-sibling::td[3]
 	String exactXpathForProject = "//tr[td[@title="+ev.projectName()+"]]//following-sibling::td/a[contains(text(),'Open')]";
 	cu.blindWait();
 	//52343-CMB 20 Fenchurch Street
@@ -340,7 +332,6 @@ public void projectName_New() throws IOException, InterruptedException{
 	//52343-CMB 20 Fenchurch Street
 	cu.WaitForElementXPATHPresent(exactXpathForProject);
 	driver().findElement(By.xpath(exactXpathForProject)).click();
-
 }
 //task listed under by me list
 public void projectName_Board_Byme() throws InterruptedException, IOException{

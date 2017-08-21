@@ -14,7 +14,7 @@ public class AppointkeystaffandCommerSuitUi {
 	@FindBy(xpath="//select[@id='st_projectLead']")
 	private WebElement leadPL;
 	
-	@FindBy(xpath="//select[@id='st_applicationOrInvoice']")
+	@FindBy(xpath="//select[@id='st_applicationOrInvoicePDP']")
 	private WebElement draftCommercialSuitProduced;
 	
 	@FindBy(xpath="//input[@id='fileList_flm_draftCommercialSuitProduced']")
@@ -24,10 +24,10 @@ public class AppointkeystaffandCommerSuitUi {
 		return cummercialSuit_doc;
 	}
 	
-	@FindBy(xpath="//input[@id='in_paymentTermsDays']")
+	@FindBy(xpath="//input[@id='in_paymentTermsDaysPDP']")
 	private WebElement payment_Terms;
 
-	@FindBy(xpath="//input[@id='st_daysFrom']")
+	@FindBy(xpath="//input[@id='st_daysFromPDP']")
 	private WebElement days_From;
 	
 	@FindBy(xpath="//input[@id='fileList_flm_paymentCycleDocument']")

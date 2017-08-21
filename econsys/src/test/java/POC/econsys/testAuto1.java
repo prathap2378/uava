@@ -1,9 +1,14 @@
 package POC.econsys;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
+
+import bsh.StringUtil;
+
 import com.econsys.Genriclibrery.CommonUtils;
 import com.econsys.Genriclibrery.Driver;
 import com.econsys.Projects.Login;
@@ -12,21 +17,64 @@ import com.econsys.UIobjectrepositary.AllPages;
 
 //import com.econsys.Genriclibrery.Driver;
 
-public class testAuto1 extends Driver{
+public class testAuto1{
 	private static Logger log=Logger.getLogger(testAuto1.class.getName());
 	CommonUtils cu = new CommonUtils();
 	Login login = new Login();
 	AllPages allPages= PageFactory.initElements(Driver.driver(), AllPages.class);
 	Workbook wb = new Workbook();
+	public static void main(String[] args) {
+		String upper = "make me feel happy";
+		String Upper= upper.substring(0,1).toUpperCase()+upper.substring(1);
+		
+		System.out.println("Upper ------"+Upper);
+	String a = null;
 	
-@Test()
+	byte c = 121;
+	short d =3411;
+	int b =  2147483623;
+	long e = 1231231232123123123L;
+	boolean f = false;
+	char g = 'q';
+	float ii = 151231231212312123123121312312312311122.02f;
+	double jj = 123456723234234234234131231234234234238910.89;
+	int i;
+	int n =5,k = 2*n;
+
+	
+	for(i = 0; i <= 4;i++){
+	
+		for(int h=0;h<k;h++){
+		System.out.print(" ");
+	
+		}
+		k=k-1;
+		for(int j = 0; j < i;j++){
+			System.out.print(" *");
+		}
+		System.out.println(" ");
+	}
+	for(i = 0; i <= 4;i++){
+		System.out.println("k is---"+k);
+		
+		System.out.println(" ");
+		for(int j = 4; j > i;j--){
+		System.out.print(" *");
+		}
+		for(int h=0;h<k;h++){
+			System.out.print(" ");
+			}
+			k=k-1;
+	}
+	}
+//@Test()
 public void test1()throws Exception{
 	
 	/*boolean flag=false;
 	flag=Driver.driver().findElement(By.xpath("//span[text()=' RTQ']")).isDisplayed();
 	Assert.assertEquals(flag, true);
 	log.info("Test script executed successfully");*/
-	login.url();
+	/*login.url();
 	login.user();
 	cu.waitForPageToLoad();
 	
@@ -44,6 +92,6 @@ public void test1()throws Exception{
 		String f = driver.findElement(By.xpath("//select[@id='tasks']/option["+i+"]")).getText();
 		System.out.println(f);
 		wb.setExcelData(4, s, 0, f);
-	}
+	}*/
 }
 }

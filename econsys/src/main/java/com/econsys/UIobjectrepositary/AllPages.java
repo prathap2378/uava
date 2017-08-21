@@ -40,7 +40,7 @@ WebElement userListlink;
 WebElement proDocslink;
 @FindBy(xpath="//span[text()=' Guidance Notes']")
 WebElement guidanceNoteslink;
-@FindBy(xpath="//span[text()=' Grid Master']")
+@FindBy(xpath="//span[text()=' Master Data']")
 WebElement gridMasterlink;
 @FindBy(xpath="//span[text()=' Data Report']")
 WebElement dataReportlink;

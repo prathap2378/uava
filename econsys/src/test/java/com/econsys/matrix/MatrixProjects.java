@@ -1,7 +1,4 @@
 package com.econsys.matrix;
-
-
-
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
@@ -31,18 +28,18 @@ public class MatrixProjects extends Driver {
 	
 	private static Logger log = Logger.getLogger(MatrixProjects.class.getName());
 	//Page UI classes
-	public static Preparequote prepare_Quoteui=PageFactory.initElements(Driver.driver(), Preparequote.class);
-	static CommonUtils cu=PageFactory.initElements(Driver.driver(), CommonUtils.class);
-	static RTQForm_Ui nrtq=PageFactory.initElements(Driver.driver(), RTQForm_Ui.class);
-	static Assignsalesleader sla=PageFactory.initElements(Driver.driver(), Assignsalesleader.class);
-	static CosCommitQuoteStatusUi ccq=PageFactory.initElements(Driver.driver(), CosCommitQuoteStatusUi.class);
-	static ActionButtonsUi ab=PageFactory.initElements(Driver.driver(),ActionButtonsUi.class);
-	static Salestooperation so=PageFactory.initElements(Driver.driver(),Salestooperation.class);
-	static AppointkeystaffandCommerSuitUi ak=PageFactory.initElements(Driver.driver(), AppointkeystaffandCommerSuitUi.class);
-	static PDPui pdp_ui=PageFactory.initElements(Driver.driver(),PDPui.class);
+	public static Preparequote prepare_Quoteui = PageFactory.initElements(Driver.driver(), Preparequote.class);
+	static CommonUtils cu = PageFactory.initElements(Driver.driver(), CommonUtils.class);
+	static RTQForm_Ui nrtq = PageFactory.initElements(Driver.driver(), RTQForm_Ui.class);
+	static Assignsalesleader sla = PageFactory.initElements(Driver.driver(), Assignsalesleader.class);
+	static CosCommitQuoteStatusUi ccq = PageFactory.initElements(Driver.driver(), CosCommitQuoteStatusUi.class);
+	static ActionButtonsUi ab = PageFactory.initElements(Driver.driver(),ActionButtonsUi.class);
+	static Salestooperation so = PageFactory.initElements(Driver.driver(),Salestooperation.class);
+	static AppointkeystaffandCommerSuitUi ak = PageFactory.initElements(Driver.driver(), AppointkeystaffandCommerSuitUi.class);
+	static PDPui pdp_ui = PageFactory.initElements(Driver.driver(),PDPui.class);
 	static Alerts alerts = PageFactory.initElements(Driver.driver(), Alerts.class);
 	Actions actions = new Actions(driver);
-	//import classes
+	//imported classes
 	static Workbook wb=new Workbook();
 	static ReviewInvolve ri=new ReviewInvolve();
 	static TasksCP4toCP5 g45=new TasksCP4toCP5();
@@ -54,15 +51,10 @@ public class MatrixProjects extends Driver {
 	static EconsysVariables ev = new EconsysVariables();
 	static ProjectMethods_Small_Works projectMethods_Small_Works = new ProjectMethods_Small_Works();
 	
-	//Variables
-	/*public static String estimatedSize;
-	public static String location;*/
-	
 	static int num;
 	static double overallSell;
 	static String filepath=System.getProperty("user.dir");
-	
-	//Monorail flow
+	//Matrix flow
 	@Test(invocationCount = 1,threadPoolSize = 1)
 	//invocationCount = 10,threadPoolSize = 1
 	public void test1() throws Exception {
@@ -73,21 +65,17 @@ public class MatrixProjects extends Driver {
 	//Test method
 	@Test
 	public static void monorailTestFlow(String estimatedSize,String location) throws Exception{
-		//******URL&&&&&&&&&
 		//login.url_Matrixe();
 		login.url();
-
 		//*****Login as genral user******
 		cu.waitForPageToLoad();
-		//boolean elementexist=driver.findElements(By.cssSelector("input[id='_58_emailInput'][name='_58_login']")).size()>0;
-		//if(elementexist)
 		login.user();
 		//****intiation of rtq form*********
 	    b.rtqForm(estimatedSize,location);
 	    //submit rtq
 	    b.submit_Logout();
 		//***********CP1 exe dession************
-		if((estimatedSize.equals("D 500+"))||(location.equals("Other"))) {
+		if((estimatedSize.equals("D 500-1000k"))||(location.equals("Other"))) {
 			//b.boardApproval();
 			sdApproval();
 		}
@@ -98,19 +86,16 @@ public class MatrixProjects extends Driver {
 		if(!sl.equals(userName)){
 		monorail.ASL();
 		}
-		
 		//Prepare Quote
 		monorail.prepare_Quote();
 		cu.selectByVisibleText(prepare_Quoteui.getExpliciteapprovalatgateway2(),ev.exeCP2);
 		prepare_Quoteui.getQuoteprepared().click();
 		login.logout();
-
 		//RTQ 2 in prepare quote
 		String eSizertq2 = wb.getXLData(2, 4, 1);
 		String locationrtq2 = wb.getXLData(4, 4, 1);
 		
 		b.pathdession_Mat(eSizertq2,locationrtq2);
-		
 		//For CL approval in case of Quotation in our format is No
 				if((ev.ourformat.equals("No"))&&eSizertq2.equalsIgnoreCase("A 0-100k")
 						&&locationrtq2.equalsIgnoreCase("Inside M25")){
@@ -118,17 +103,23 @@ public class MatrixProjects extends Driver {
 					clApproval();
 				}
 				//**********CP2 exe dession**************
+				boolean isCP1green = estimatedSize.equalsIgnoreCase(ev.estimatedSize0to100k_)&&location.equalsIgnoreCase(ev.location_inside);
+				boolean isCP2red = (eSizertq2.equalsIgnoreCase(ev.estimatedSize500_)||locationrtq2.equalsIgnoreCase(ev.location_other));
+				boolean isCP2amber = (eSizertq2.equalsIgnoreCase(ev.estimatedSize250_)||locationrtq2.equalsIgnoreCase(ev.location_SouthEast));
 				if(ev.exeCP2.equals("Yes")){
 					b.boardApproval();
 				}
 				//If condition does not match for SD approval
-				else if(ev.bidsheetauthorised.equals("No")||eSizertq2.equalsIgnoreCase(ev.estimatedSize_)||locationrtq2.equalsIgnoreCase(ev.location_other)){
+				else if((ev.bidsheetauthorised.equals("No"))||(isCP1green&&(isCP2amber||isCP2red)))
+				{
+					System.out.println("bid sheet--"+(ev.bidsheetauthorised.equals("No")));
+					boolean f = (isCP1green&&(isCP2amber||isCP2red));
+					System.out.println(f);
+					System.out.println("in SD approval -- cp2");
 					MatrixProjects.sdApproval();
 				}
-		
 		monorail.submitQuote();
 		statusQuotesubmit_(ev.customerCommitmentType, ev.quote_StatusCp2Cp3);
-		
 		//**********CP4 exe dession New Flow**************
 		if((ev.clarification.equals("No"))&&(ev.customerCommitmentType.equalsIgnoreCase(ev.customerCommitmentType_PO)||ev.customerCommitmentType.equalsIgnoreCase(ev.customerCommitmentType_SubCon))){
 			sdApproval();
@@ -136,38 +127,32 @@ public class MatrixProjects extends Driver {
 		if((ev.execp4.equals("Yes"))){
 			b.boardApproval();
 		}
-		
+		//Submit response
 		g45.submitResponse();
-		
+		//Appoint Key staff
 		g45.apointkeystaf();
-		//driver.quit();
-		//Commercial suit is removed in flow for matrix
-		//g45.commerSuit_Matrix();
-        
 		//Sales to operation hand-over
 		g45.salestoOperation();
-		
   	    cu.selectByVisibleText(so.getExeCP5(),ev.exe5_SalestoOper);
   	    ab.getComments().sendKeys("Sales to operation");
   	    ab.getSubmitbutton().click();
   	    login.logout();
-  	    
   	    //operation hand-over
         g45.operationAcceptance();
   	  	cu.selectByVisibleText(ak.getExeOperationAcceptanceCP5(), ev.exeCP5_OperationAccep);
   	  	ab.getComments().sendKeys("Operations Acceptance");
   	  	ab.getAcceptOperationAcceptance().click();
   	  	login.logout();
-		
+  	  	//Meeting Notes
+  	  	if(ev.meetingwithSL.equals("Yes")||ev.meeting.equals("Yes")){
+  	  		g45.meetings();
+  	  	}
   	  	//**********CP5 exe dession **********
         if(ev.exe5_SalestoOper.equals("Yes")||(ev.exeCP5_OperationAccep.equals("Yes")||(ev.draftproduced.equals("No")))){
 			b.boardApproval();
 		}
-        
-        //driver.close();
         //Project delivery plan(PDP)
 		pdop.pdp_Matrix();
-		
 		cu.selectByVisibleText(pdp_ui.getExecp6(),ev.execp6);
 		cu.waitForPageToLoad();
 		ab.getSubmitbutton().click();
@@ -177,12 +162,10 @@ public class MatrixProjects extends Driver {
 		if(ev.execp6.equals("Yes")){
 			b.boardApproval();
 		}
-		//driver.close();
 		//Delivery Review
 		pdop.deveryreview();
 		//**********OD approval **************
 		pdop.obtainpracticalcomplition();
-		
 		cu.selectByVisibleText(pdp_ui.getOpc_cp8(), ev.execp8);
 		ab.getSubmitbutton().click();
 		login.logout();
@@ -190,7 +173,6 @@ public class MatrixProjects extends Driver {
 		if(ev.certificateobtained.equals("No")||ev.retationapplied.equals("No")||ev.onmSubmitted.equals("No")||ev.snagListIdentified.equals("No")||ev.internalCompletionDocument.equals("No")||ev.execp8.equals("Yes")){
 			b.boardApproval();
 		}
-		
 		pdop.postpracticalcomplition();
 		cu.selectByVisibleText(pdp_ui.getPpc_cp9(), ev.execp9);
 		ab.getSubmitbutton().click();
@@ -199,7 +181,6 @@ public class MatrixProjects extends Driver {
 		if(ev.finalAccountAgreement.equals("No")||ev.finalRetentionPaid.equals("No")||ev.projectDocumentArchived.equals("No")||ev.projectDebrief.equals("No")||ev.subContractAccountSettled.equals("No")||ev.closureofProject.equals("No")||ev.bondsGuarantees_Resolved.equals("No")||ev.execp9.equals("Yes")){
 			b.boardApproval();
 		}
-		
 		log.info("Monorail Test script ended....");
 	}
 	//SD approval estimated size
@@ -212,13 +193,11 @@ public class MatrixProjects extends Driver {
 		ab.getApprove_Button().click();
 		login.logout();
 	}
-	
 	public static void clApproval() throws IOException, InterruptedException {
 		
 		login.loginCL();
 		cu.blindWait();
 		//b.projectname_ReviewApproval();
-				
 		ab.getComments().sendKeys("Prepare quote CL Approval...");
 		//Authorize button
 		driver.findElement(By.id("authorise")).click();
@@ -242,7 +221,6 @@ public static void statusQuotesubmit_(String customerCommitmentType,String quote
 	 	if(quoteStatus.equals("Customer Commitment Received")){
 	 		{
 	 			cu.selectByVisibleText(ccq.getCustomerCommitmentType(), customerCommitmentType);
-	 			
 	 			if(!ev.customerCommitmentType_Verbal.equals(customerCommitmentType)){
 	 			ccq.getUploadDoc_StatusofSubmitQuote().click();
 	 			projectMethods_Small_Works.linktoFileupload();
@@ -250,26 +228,21 @@ public static void statusQuotesubmit_(String customerCommitmentType,String quote
 	 		}
 	 ab.getComments().sendKeys("Quote status updated as "+quoteStatus);
 	 ccq.getSubmit().click();
-	 
 	//Customer commitment acceptance logic
 	 	CCAlogic_Matrix(customerCommitmentType);
 	 	}
-	 	
 	 	else if(quoteStatus.equals(ev.quoteStatusAmendBid)){
-	
 		 ab.getComments().sendKeys("Quote status is Amend Bid");
 		 ccq.getSubmit().click();	 
 		 monorail.prepareQuotecp2cp3();
 		 cu.selectByVisibleText(prepare_Quoteui.getExecp3(),ev.exeCP3);
 		 prepare_Quoteui.getQuoteprepared().click();
 		 login.logout();
-		 
 		 //Path
 		 //RTQ 3 in revised prepare quote
 		 String eSizertq3 = wb.getXLData(7, 4, 1);
 		 String locationrtq3 = wb.getXLData(9, 4, 1);
 		 b.pathdessioncp2cp3_Mat(eSizertq3,locationrtq3);
-		 
 		 //Quote not in our formate for CL approval
 		 if(ev.cp2cp3ourformat.equals("No")&&(eSizertq3.equalsIgnoreCase("A 0-100k"))
 					&&(locationrtq3.equalsIgnoreCase("Inside M25"))){
@@ -280,14 +253,15 @@ public static void statusQuotesubmit_(String customerCommitmentType,String quote
 if(ev.exeCP3.equals("Yes")){
 	b.boardApproval();
 		 }
-else if((ev.cp2cp3bidsheetauthorised.equals("No"))||eSizertq3.equalsIgnoreCase(ev.estimatedSize_)||locationrtq3.equalsIgnoreCase(ev.location_other)){
+else if((ev.cp2cp3bidsheetauthorised.equals("No"))||
+		(eSizertq3.equalsIgnoreCase(ev.estimatedSize250_))||(locationrtq3.equalsIgnoreCase(ev.location_SouthEast))||
+		(eSizertq3.equalsIgnoreCase(ev.estimatedSize500_))||(locationrtq3.equalsIgnoreCase(ev.location_other))){
 	sdApproval();
 }
 monorail.resubmitQuote();
 status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 	 	}
 }
-
 //Status of resubmitted quote used for Matrix
 	 public static void status_Quote_Resubmit_(String estimatedSize,String location) throws IOException, InterruptedException{
 		 //login.loginSL();
@@ -316,7 +290,6 @@ status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 		//Customer commitment acceptance logic
 		 	CCAlogic_Matrix(ev.customerCommitmentType);
 		 }
-		 
 		 //******Amend bid******
 		 else if(ev.quote_StatusCp3Cp4.equals("Amend Bid")){
 		 	 
@@ -325,7 +298,6 @@ status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 		 String eSizertq3 = wb.getXLData(7, 4, 1);
 		 String locationrtq3 = wb.getXLData(9, 4, 1);
 		 b.pathdessioncp2cp3_Mat(eSizertq3,locationrtq3);
-		 
 		 //Cl approval quation on our format is Np
 		 	if(ev.cp2cp3ourformat.equalsIgnoreCase("No")){
 		 		clApproval();
@@ -338,22 +310,18 @@ status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 		 	else if ((ev.ourformat.equals("Yes")&&ev.cp2cp3ourformat.equals("No"))||(ev.cp2cp3bidsheetauthorised.equals("No"))) {
 				MatrixProjects.sdApproval();
 			}
-		 
 		 monorail.resubmitQuote();
 		 status_Quote_Resubmit_(estimatedSize,location);
 		 }
 	 }
-	 
 	//Customer commitment logic matrix, PAG and UKAS(may not work for ukas)
 		 public static void CCAlogic_Matrix(String customerCommitmentType) throws InterruptedException, IOException{
-			 
 			 //customer commitment LOI/Email/Verbal received- status of submitted quote		 
 			 	if(customerCommitmentType.equals(ev.customerCommitmentType_LOI)||customerCommitmentType.equals(ev.customerCommitmentType_Email)
 			 		){
 			 		cu.waitForPageToLoad();
 			 		String taskName = PropertiesUtil.getPropValues("customer_Commitment_Acceptance");
 			 		b.projectTaskName(taskName);
-			 		
 			 		cu.selectByVisibleText(driver.findElement(By.xpath("//select[@id='st_request_for_cw']")),ev.loi_Commencement);
 			 		ab.getComments().sendKeys("Customer Commitment Type");
 			 		
@@ -387,25 +355,10 @@ status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 				 	 		cu.selectByVisibleText(ccq.getExeCP4(), ev.execp4);
 				 	 		b.submit_Logout();
 				 	 		
-				 	 		/*if(ev.any_limitation_to_scope.equals("No")||ev.any_limitation_to_expenditure.equals("No")||
-				 	 				ev.any_Time_limit_to_Instructions.equals("No")||ev.any_other_Review.equals("No"))
-				 	 		{
-				 	 			g34.opsApproval();
-				 	 		}
-				 	 		
-				 	 		if(ev.any_limitation_to_scope.equals("Yes")||ev.any_limitation_to_expenditure.equals("Yes")||
-				 	 				ev.any_Time_limit_to_Instructions.equals("Yes")||ev.any_other_Review.equals("Yes"))
-				 	 		{
-				 	 			g34.clApproval();
-				 	 			//g34.opsApproval();
-				 	 		}*/
-				 	 		
-				 	 		g34.TandCreview();
+				 	 		TaskCP3CP4.TandCreview();
 			 		}
-			 	
 			 	//Does LOI Received specifically request for commencement of work? = 'NO'
 				 	if(ev.loi_Commencement.equals("No")){
-				 		
 				 		//Select explicit cp4 approval
 				 		driver.findElement(By.xpath("//input[@id='fileList_flm_slreponseDocs']")).click();
 				 		projectMethods_Small_Works.linktoFileupload();
@@ -413,17 +366,6 @@ status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 				 		cu.selectByVisibleText(ccq.getExeCP4(), ev.execp4);
 				 		b.submit_Logout();
 				 		cu.waitForPageToLoad();
-				 		/*//alerts.getAlert_Accept_Yes();
-				 		driver.findElement(By.xpath("//div/a[contains(text(),'Yes')]")).click();*/
-				 		
-				 		/*//Prepare response task
-				 		login.loginSL();
-				 		g34.prepareResponseSales();
-				 		
-				 		//Approve response to sales
-				 		login.loginCL();
-				 		ab.getComments().sendKeys("Commercial approval for sales respose");
-				 		ab.getApprove_Button().click();*/
 				 		
 				 		TaskCP3CP4.TandCreview();
 				 	}
@@ -440,15 +382,10 @@ status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 			 			b.submit_Logout();
 			 			
 			 			g34.clApproval();
-		 		}
-				 	
-			 	else if(customerCommitmentType.equals(ev.customerCommitmentType_PO)||customerCommitmentType.equals(ev.customerCommitmentType_SubCon))
+		 		}else if(customerCommitmentType.equals(ev.customerCommitmentType_PO)||customerCommitmentType.equals(ev.customerCommitmentType_SubCon))
 			 	{
 				 //g34.customercommit();
 			 		g34.scopeDocandContractValueVerification();
 			 	}
 		 }
-
-	 }
-	 
-	
+}
