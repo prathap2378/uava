@@ -64,11 +64,24 @@ public class Basic extends Driver {
 	  
 	  points=wb.getXLData(10,1,1);
 	  nrtq.getPoints().sendKeys(""+points);
-
-	  //Matrix specific fields 
+	  
+	//Company field only for 4eg
 	  String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='"+ev.org_Name+"']")).getText();
-	  if(ev.org_Name.equalsIgnoreCase(orgName)){
-	
+	  if(ev.org_4eg.equalsIgnoreCase(orgName)){
+		  int i = (int)(Math.random()*10000000);
+		  WebElement company = driver.findElement(By.xpath("//*[@id='st_company']"));
+			cu.selectByIndex(company, 1);
+		  nrtq.getQuoterRefNumber().sendKeys(""+i);
+		  cu.selectByIndex(nrtq.getNeworExis(), 1);
+		  //cu.selectByIndex(nrtq.getQuotationType(), 1);
+		  cu.selectByIndex(nrtq.getLeadSource(), 1);
+		  //anticipated date
+		  nrtq.getAnticipatedDate().click();
+		  driver.findElement(By.xpath("//*[@id='ui-datepicker-div']/div[2]/button")).click();
+	  }
+			
+	  //Matrix specific fields 
+	  if(ev.org_Matrixs.equalsIgnoreCase(orgName)){
 		  double i = Math.random();
 		  nrtq.getQuoterRefNumber().sendKeys(""+i);
 		  cu.selectByIndex(nrtq.getNeworExis(), 1);
@@ -158,19 +171,19 @@ public class Basic extends Driver {
 //green-amber-red 'Decide path'
 public void pathdession(String estimatedSize,String location) throws InterruptedException, IOException{
 		
-		if(estimatedSize.equals("C 250-500k")){
+		if(estimatedSize.equals(ev.estimatedSize250_)){
 			System.out.println("Eng review path");
 		ri.reviewEL();
 		}
-		if(location.equals("South East")){
+		if(location.equals(ev.location_SouthEast)){
 			
 		ri.reviewCL();
 		}
-		if(estimatedSize.equals("D 500+")){
+		if(estimatedSize.equals(ev.estimatedSize500_)){
 			System.out.println("Eng Involve path");
 			ri.involveEL();
 		}
-		if(location.equals("Other")){
+		if(location.equals(ev.location_other)){
 			System.out.println("Comer Involve path");
 			ri.involveCL();
 		}
@@ -178,19 +191,19 @@ public void pathdession(String estimatedSize,String location) throws Interrupted
 	
 	public void pathdessioncp2cp3(String estimatedSize,String location) throws InterruptedException, IOException{
 		
-		if(estimatedSize.equals("C 250-500k")){
+		if(estimatedSize.equals(ev.estimatedSize250_)){
 			
 		ri.reviewEL();
 		}
-		if(location.equals("South East")){
+		if(location.equals(ev.location_SouthEast)){
 			
 		ri.reviewCL();
 		}
-		if(estimatedSize.equals("D 500+")){
+		if(estimatedSize.equals(ev.estimatedSize500_)){
 			
 			ri.involveEL();
 		}
-		if(location.equals("Other")){
+		if(location.equals(ev.location_other)){
 			
 			ri.involveCLcp2cp3();
 		}
@@ -199,35 +212,35 @@ public void pathdession(String estimatedSize,String location) throws Interrupted
 	//green-amber-red 'Decide path'
 	public void pathdession_Mat(String estimatedSize,String location) throws InterruptedException, IOException{
 			
-			if(estimatedSize.equals("C 250-500k")){
+			if(estimatedSize.equals(ev.estimatedSize250_)){
 				login.loginEL();
 			    ri.reviewInvolvecommon();
 			}
-			if(location.equals("South East")){
+			if(location.equals(ev.location_SouthEast)){
 				login.loginCL();
 				ri.reviewInvolvecommon();
 			}
-			if(estimatedSize.equals("D 500-1000k")){
+			if(estimatedSize.equals(ev.estimatedSize500_)){
 				ri.involveEL();
 			}
-			if(location.equals("Other")){
+			if(location.equals(ev.location_other)){
 				ri.involveCL();
 			}
 		}
 	public void pathdessioncp2cp3_Mat(String estimatedSize,String location) throws InterruptedException, IOException{
 			
-			if(estimatedSize.equals("C 250-500k")){
+			if(estimatedSize.equals(ev.estimatedSize250_)){
 				login.loginEL();
 			    ri.reviewInvolvecommon();
 			}
-			if(location.equals("South East")){
+			if(location.equals(ev.location_SouthEast)){
 				login.loginCL();
 				ri.reviewInvolvecommon();
 			}
-			if(estimatedSize.equals("D 500-1000k")){
+			if(estimatedSize.equals(ev.estimatedSize500_)){
 				ri.involveEL();
 			}
-			if(location.equals("Other")){
+			if(location.equals(ev.location_other)){
 				ri.involveCL();
 			}
 		}
@@ -258,7 +271,8 @@ public void projectTaskName(String taskName) throws InterruptedException, IOExce
 	
 	ab.getViewalltasks().click();
 	cu.blindWait();
-	String projectName = "//tr[td[@title='"+taskName+"']][td[@title="+ev.projectName()+"]]//preceding-sibling::td/a[contains(text(),'"+taskName+"')]";	
+	String projectName = "//tr[td[@title='"+taskName+"']][td[@title="+ev.projectName()+
+			"]]//preceding-sibling::td/a[contains(text(),'"+taskName+"')]";	
 	try{
 		driver.findElement(By.xpath(projectName)).click();
 	}catch(StaleElementReferenceException e){
@@ -382,9 +396,9 @@ public void submit_Logout() throws InterruptedException{
 		 log.info("open project");
 		 //driver().findElement(By.xpath("//div[@id='gate3']/div/ul/li[1]/a[contains(text(),'New')]")).click();
 		 //actions.moveToElement(element).click().perform();
-		 projectname_ReviewApproval();
-		 //taskNameCP = driver.findElement(By.xpath("//td[@title="+ev.projectName()+"]//preceding-sibling::td[3]")).getAttribute("title");
+		 taskNameCP = driver.findElement(By.xpath("//td[@title="+ev.projectName()+"]//preceding-sibling::td[3]")).getAttribute("title");
 		 log.info("taskNameCP------"+taskNameCP);
+		 projectname_ReviewApproval();
 		 if(taskNameCP.equals("Control Point 4 Approval")){
 			 cu.blindWait();
 			 cu.selectByVisibleText(driver().findElement(By.xpath("//select[@id='st_authoriseCommencement']")), ev.atherize);

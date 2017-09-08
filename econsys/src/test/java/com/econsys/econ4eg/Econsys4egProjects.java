@@ -1,7 +1,8 @@
-package com.econsys.matrix;
+package com.econsys.econ4eg;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.jboss.netty.util.EstimatableObjectWrapper;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
@@ -24,9 +25,9 @@ import com.econsys.UIobjectrepositary.*;
  * Status of submit Quote/Resubmit quote
  * Board approval */
 
-public class MatrixProjects extends Driver {
+public class Econsys4egProjects extends Driver {
 	
-	private static Logger log = Logger.getLogger(MatrixProjects.class.getName());
+	private static Logger log = Logger.getLogger(Econsys4egProjects.class.getName());
 	//Page UI classes
 	public static Preparequote prepare_Quoteui = PageFactory.initElements(Driver.driver(), Preparequote.class);
 	static CommonUtils cu = PageFactory.initElements(Driver.driver(), CommonUtils.class);
@@ -50,7 +51,7 @@ public class MatrixProjects extends Driver {
 	static TasksCP5toCP9 pdop=new TasksCP5toCP9();
 	static EconsysVariables ev = new EconsysVariables();
 	static ProjectMethods_Small_Works projectMethods_Small_Works = new ProjectMethods_Small_Works();
-	
+	static boolean isCP2amber, isCP2green;
 	static int num;
 	static double overallSell;
 	static String filepath=System.getProperty("user.dir");
@@ -75,14 +76,12 @@ public class MatrixProjects extends Driver {
 	    //submit rtq
 	    b.submit_Logout();
 		//***********CP1 exe dession************
-		if((estimatedSize.equals("D 500-1000k"))||(location.equals("Other"))) {
-			//b.boardApproval();
-			sdApproval();
+		if((estimatedSize.equals(ev.estimatedSize500_))||(location.equals(ev.location_other))) {
+			b.boardApproval();
 		}
 		//Assign Sales Leader
 		String userName = wb.getXLData(1, 0,0);
 		String sl=wb.getXLData(10, 0, 0);
-		
 		if(!sl.equals(userName)){
 		monorail.ASL();
 		}
@@ -91,43 +90,37 @@ public class MatrixProjects extends Driver {
 		cu.selectByVisibleText(prepare_Quoteui.getExpliciteapprovalatgateway2(),ev.exeCP2);
 		prepare_Quoteui.getQuoteprepared().click();
 		login.logout();
-		
-		b.pathdession_Mat(ev.eSizertq2,ev.locationrtq2);
+				
+		b.pathdession(ev.eSizertq2,ev.locationrtq2);
 		//For CL approval in case of Quotation in our format is No
-				if((ev.ourformat.equals("No"))&&ev.eSizertq2.equalsIgnoreCase("A 0-100k")
-						&&ev.locationrtq2.equalsIgnoreCase("Inside M25")){
-					log.info("In CL approval");
-					clApproval();
-				}
-				//**********CP2 exe dession**************
-				boolean isCP1green = estimatedSize.equalsIgnoreCase(ev.estimatedSize0to100k_)&&location.equalsIgnoreCase(ev.location_inside);
-				boolean isCP2red = (ev.eSizertq2.equalsIgnoreCase(ev.estimatedSize500_)||ev.locationrtq2.equalsIgnoreCase(ev.location_other));
-				boolean isCP2amber = (ev.eSizertq2.equalsIgnoreCase(ev.estimatedSize250_)||ev.locationrtq2.equalsIgnoreCase(ev.location_SouthEast));
-				if(ev.exeCP2.equals("Yes")){
-					b.boardApproval();
-				}
-				//If condition does not match for SD approval
-				else if((ev.bidsheetauthorised.equals("No"))||(isCP1green&&(isCP2amber||isCP2red)))
-				{
-					System.out.println("bid sheet--"+(ev.bidsheetauthorised.equals("No")));
-					boolean f = (isCP1green&&(isCP2amber||isCP2red));
-					System.out.println(f);
-					System.out.println("in SD approval -- cp2");
-					MatrixProjects.sdApproval();
-				}
+		boolean isCP1green = estimatedSize.equalsIgnoreCase(ev.estimatedSize0to100k_)&&location.equalsIgnoreCase(ev.location_inside);
+		boolean isCP1amber = estimatedSize.equalsIgnoreCase(ev.estimatedSize250_)|| location.equalsIgnoreCase(ev.location_SouthEast);
+		boolean isCP2red = (ev.eSizertq2.equalsIgnoreCase(ev.estimatedSize500_)||ev.locationrtq2.equalsIgnoreCase(ev.location_other));
+		isCP2amber = (ev.eSizertq2.equalsIgnoreCase(ev.estimatedSize250_)||ev.locationrtq2.equalsIgnoreCase(ev.location_SouthEast));
+		isCP2green = ((ev.eSizertq2.equalsIgnoreCase(ev.estimatedSize0to100k_) && ev.locationrtq2.equalsIgnoreCase(ev.location_inside)));
+		
+		if((ev.ourformat.equals("No"))&& isCP2green){
+			log.info("In CL approval");
+			clApproval();
+		}
+		//**********CP2 exe dession**************
+		if( isCP2red&&(isCP1green || isCP1amber) || ev.exeCP2.equals("Yes") || ev.bidsheetauthorised.equals("No")){
+			b.boardApproval();
+		}
 		monorail.submitQuote();
 		statusQuotesubmit_(ev.customerCommitmentType, ev.quote_StatusCp2Cp3);
 		//**********CP4 exe dession New Flow**************
-		if((ev.clarification.equals("No"))&&(ev.customerCommitmentType.equalsIgnoreCase(ev.customerCommitmentType_PO)||ev.customerCommitmentType.equalsIgnoreCase(ev.customerCommitmentType_SubCon))){
-			sdApproval();
-		}
-		if((ev.execp4.equals("Yes"))){
+		if(ev.execp4.equals("Yes") || (ev.clarification.equals("No") &&
+				(ev.customerCommitmentType.equalsIgnoreCase(ev.customerCommitmentType_PO) || 
+						ev.customerCommitmentType.equalsIgnoreCase(ev.customerCommitmentType_SubCon)))){
 			b.boardApproval();
 		}
 		//Submit response
 		g45.submitResponse();
 		//Appoint Key staff
 		g45.apointkeystaf();
+		//commercial suite
+		g45.cummercialSuite_4eg();
 		//Sales to operation hand-over
 		g45.salestoOperation();
   	    cu.selectByVisibleText(so.getExeCP5(),ev.exe5_SalestoOper);
@@ -149,7 +142,7 @@ public class MatrixProjects extends Driver {
 			b.boardApproval();
 		}
         //Project delivery plan(PDP)
-		pdop.pdp_Matrix();
+		pdop.pdp_4eg();
 		cu.selectByVisibleText(pdp_ui.getExecp6(),ev.execp6);
 		cu.waitForPageToLoad();
 		ab.getSubmitbutton().click();
@@ -180,16 +173,7 @@ public class MatrixProjects extends Driver {
 		}
 		log.info("Monorail Test script ended....");
 	}
-	//SD approval estimated size
-	public static void sdApproval() throws IOException, InterruptedException {
-		
-		login.loginSD();
-		cu.blindWait();
-		b.projectname_ReviewApproval();
-		ab.getComments().sendKeys("SD Approval...");
-		ab.getApprove_Button().click();
-		login.logout();
-	}
+	
 	public static void clApproval() throws IOException, InterruptedException {
 		
 		login.loginCL();
@@ -201,8 +185,7 @@ public class MatrixProjects extends Driver {
 		cu.waitForPageToLoad();
 		login.logout();
 	}
-
-//status of submitted quote Matrix flow
+//status of submitted quote Matrix and 4eg flow
 public static void statusQuotesubmit_(String customerCommitmentType,String quoteStatus) throws IOException, InterruptedException{
 		
 	 //login.loginSL();
@@ -235,28 +218,25 @@ public static void statusQuotesubmit_(String customerCommitmentType,String quote
 		 cu.selectByVisibleText(prepare_Quoteui.getExecp3(),ev.exeCP3);
 		 prepare_Quoteui.getQuoteprepared().click();
 		 login.logout();
-		 //Path
-		 b.pathdessioncp2cp3_Mat(ev.eSizertq3,ev.locationrtq3);
+		
+		 b.pathdessioncp2cp3(ev.eSizertq3,ev.locationrtq3);
+		 boolean isCP3green = (ev.eSizertq3.equalsIgnoreCase("A 0-100k") && ev.locationrtq3.equalsIgnoreCase("Inside M25"));
+		 boolean isCP3red = (ev.eSizertq3.equalsIgnoreCase(ev.estimatedSize500_) || ev.locationrtq3.equalsIgnoreCase(ev.location_other));
 		 //Quote not in our formate for CL approval
-		 if(ev.cp2cp3ourformat.equals("No")&&(ev.eSizertq3.equalsIgnoreCase("A 0-100k"))
-					&&(ev.locationrtq3.equalsIgnoreCase("Inside M25"))){
+		 if(ev.cp2cp3ourformat.equals("No") && isCP3green){
 			 log.info("In CL approval cp2-cp3");
 			 clApproval();
 		 }
 		 //CP3 approval board
-if(ev.exeCP3.equals("Yes")){
-	b.boardApproval();
+		 if(isCP3red && (isCP2amber || isCP2green) ||ev.exeCP3.equals("Yes") || ev.cp2cp3bidsheetauthorised.equals("No")){
+			 b.boardApproval();
 		 }
-else if((ev.cp2cp3bidsheetauthorised.equals("No"))||
-		(ev.eSizertq3.equalsIgnoreCase(ev.estimatedSize250_))||(ev.locationrtq3.equalsIgnoreCase(ev.location_SouthEast))||
-		(ev.eSizertq3.equalsIgnoreCase(ev.estimatedSize500_))||(ev.locationrtq3.equalsIgnoreCase(ev.location_other))){
-	sdApproval();
-}
-monorail.resubmitQuote();
-status_Quote_Resubmit_(ev.estimatedSize,ev.location);
+
+		 monorail.resubmitQuote();
+		 status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 	 	}
 }
-//Status of resubmitted quote used for Matrix
+//Status of resubmitted quote used for Matrix and 4eg
 	 public static void status_Quote_Resubmit_(String estimatedSize,String location) throws IOException, InterruptedException{
 		 //login.loginSL();
 		 cu.waitForPageToLoad();
@@ -288,20 +268,17 @@ status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 		 else if(ev.quote_StatusCp3Cp4.equals("Amend Bid")){
 		 	 
 		 monorail.prepareQuotecp2cp3();
-		
-		 b.pathdessioncp2cp3_Mat(ev.eSizertq3,ev.locationrtq3);
+		 
+		 b.pathdessioncp2cp3_Mat(ev.estimatedSize,ev.location);
 		 //Cl approval quation on our format is Np
 		 	if(ev.cp2cp3ourformat.equalsIgnoreCase("No")){
 		 		clApproval();
 		 	}
 		 	//Explicit board approval
-		 	if(ev.exeCP3.equals("Yes")){
+		 	if(ev.exeCP3.equals("Yes") || ev.cp2cp3bidsheetauthorised.equals("No")){
 		 		b.boardApproval();
 			}
-		 	//Sd approval
-		 	else if ((ev.ourformat.equals("Yes")&&ev.cp2cp3ourformat.equals("No"))||(ev.cp2cp3bidsheetauthorised.equals("No"))) {
-				MatrixProjects.sdApproval();
-			}
+		 
 		 monorail.resubmitQuote();
 		 status_Quote_Resubmit_(estimatedSize,location);
 		 }
@@ -309,7 +286,8 @@ status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 	//Customer commitment logic matrix, PAG and UKAS(may not work for ukas)
 		 public static void CCAlogic_Matrix(String customerCommitmentType) throws InterruptedException, IOException{
 			 //customer commitment LOI/Email/Verbal received- status of submitted quote		 
-			 	if(customerCommitmentType.equals(ev.customerCommitmentType_LOI)||customerCommitmentType.equals(ev.customerCommitmentType_Email)
+			 	if(customerCommitmentType.equals(ev.customerCommitmentType_LOI)||
+			 			customerCommitmentType.equals(ev.customerCommitmentType_Email)
 			 		){
 			 		cu.waitForPageToLoad();
 			 		String taskName = PropertiesUtil.getPropValues("customer_Commitment_Acceptance");
@@ -374,7 +352,8 @@ status_Quote_Resubmit_(ev.estimatedSize,ev.location);
 			 			b.submit_Logout();
 			 			
 			 			g34.clApproval();
-		 		}else if(customerCommitmentType.equals(ev.customerCommitmentType_PO)||customerCommitmentType.equals(ev.customerCommitmentType_SubCon))
+		 		}else if(customerCommitmentType.equals(ev.customerCommitmentType_PO)||
+		 				customerCommitmentType.equals(ev.customerCommitmentType_SubCon))
 			 	{
 				 //g34.customercommit();
 			 		g34.scopeDocandContractValueVerification();

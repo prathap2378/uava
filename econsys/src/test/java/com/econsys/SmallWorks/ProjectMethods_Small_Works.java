@@ -112,6 +112,15 @@ public boolean smallworkForm() throws InterruptedException, IOException, ClassNo
 			rtq.getProjectName().sendKeys(ev.projectName());
 			rtq.getCustomerName().sendKeys(wb.getXLData(3, 1, 1));
 			commonutils.selectByIndex(rtq.getSmallWorksType(), 1);
+			
+			//Company field only for 4eg
+			  String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='"+ev.org_Name+"']")).getText();
+			  if(ev.org_4eg.equalsIgnoreCase(orgName)){
+				  WebElement company = driver.findElement(By.xpath("//*[@id='st_company']"));
+					commonutils.selectByIndex(company, 1);
+			  }
+			  int i1 = (int)(Math.random()*10000000);
+			  driver.findElement(By.id("st_ats_quoterRefNumber")).sendKeys(""+i1);
 			//Quote Info
 			commonutils.selectByVisibleText(prepare_Quoteui.getQuotationonourFormat(), wb.getXLData(2, 5, 0));
 			prepare_Quoteui.getOverallProjectCost().sendKeys(wb.getXLData(1, 4, 2));
@@ -150,6 +159,7 @@ public boolean smallworkForm() throws InterruptedException, IOException, ClassNo
 			linktoFileupload();
 			commonutils.selectByVisibleText(prepare_Quoteui.getBidSheetAuthorised(), wb.getXLData(4, 5, 0));
 			prepare_Quoteui.getComments().sendKeys("Small Work form ...");
+			commonutils.selectByVisibleText(prepare_Quoteui.getExpliciteapprovalatgateway2(), ev.exeCP2);
 			rtq.getSubmit().click();
 			
 			//boolean alert = Driver.driver().findElements(By.xpath("//div[@class='modal-body']")).size()>0;

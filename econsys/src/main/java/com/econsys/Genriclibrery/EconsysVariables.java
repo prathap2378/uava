@@ -18,7 +18,7 @@ public class EconsysVariables {
 	public String prjname1;
 	//RTQ inputs
 	public String estimatedSize,location_inside, estimatedSize0to100k_, location, estimatedSize500_, 
-	location_other, location_SouthEast, estimatedSize250_;
+	location_other, location_SouthEast, estimatedSize250_, eSizertq2, locationrtq2, eSizertq3, locationrtq3;
 	//Cp1-Cp3
 	public String ourformat, bidsheetauthorised, exeCP2, cp2cp3ourformat, cp2cp3bidsheetauthorised, exeCP3;
 	//Status of Submit Resubmit quote
@@ -59,7 +59,11 @@ public class EconsysVariables {
 	public String customerCommitmentType_SubCon = "Sub-Contract Received - Under Review";
 	public String customerCommitmentType_PO = "PO Received - Under Review";
 	public String customerCommitmentType_Verbal = "Verbal Commitment Received - Under Review";
-	public String org_Name = "MatrixCS";
+	
+	//organization working now
+	public String org_Name = "UberControls";
+	public String org_Matrixs = "MatrixCS";
+	public String org_4eg = "UberControls";
 	public String el,cl,pl;
 	//public String org_ASQ = "ASQ";MatrixCS;
 	
@@ -73,6 +77,7 @@ public class EconsysVariables {
 		//Red
 		estimatedSize500_ = "D 500-1000k";
 		location_other = "Other";
+		
 		try {
 			//Project Name *****
 			//wb.setExcelData(1, 1, 2, "econAuto_"+Dates.dateFormat());
@@ -85,6 +90,13 @@ public class EconsysVariables {
 			estimatedSize=wb.getXLData(8, 1, 1);
 			location=wb.getXLData(9,2,1);
 			
+			//RTQ 2 in prepare quote
+			eSizertq2 = wb.getXLData(2, 4, 1);
+			locationrtq2 = wb.getXLData(4, 4, 1);
+			//RTQ 3 in revised prepare quote
+			 eSizertq3 = wb.getXLData(7, 4, 1);
+			 locationrtq3 = wb.getXLData(9, 4, 1);
+			 
 			//prepare quote variables
 			ourformat = wb.getXLData(2, 5, 0);
 			bidsheetauthorised =wb.getXLData(4, 5, 0);

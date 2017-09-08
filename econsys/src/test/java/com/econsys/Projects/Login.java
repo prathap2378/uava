@@ -74,22 +74,10 @@ public void url_Matrixe() throws IOException {
 public void logout() throws InterruptedException{
 	
 	Thread.sleep(200);
-	/*if(loginUi.getLogout().isDisplayed()){
-	//OLD theme logout link
-	loginUi.getLogout().click();
-	}*/
-	//New theme logout link
 	Actions action=new Actions(Driver.driver());
 	action.moveToElement( Driver.driver().findElement(By.xpath("//span[@class='nav-item-label']/span"))).build().perform();
 	Thread.sleep(500);
 	cu.waitForPageToLoad();
-
-	/*Thread.sleep(1000);	
-	driver.findElement(By.xpath("//span/span[@class='user-full-name']")).click();
-	Thread.sleep(5000);
-	driver.findElement(By.xpath("//span/span[@class='user-full-name']")).click();*/
-	 
-	//driver.findElement(By.xpath("//span[@class='nav-item-label']/span")).click();
 	driver.findElement(By.xpath("//span[contains(text(),'Sign Out')]")).click();
 }
 //Login super admin

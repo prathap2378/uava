@@ -223,7 +223,7 @@ public class Monorail extends Driver {
 		 cu.blindWait();
 		 //Matrix specific change Estimated size and location
 		 String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='"+ev.org_Name+"']")).getText();
-		 if(ev.org_Name.equalsIgnoreCase(orgName)){
+		 if(ev.org_Matrixs.equalsIgnoreCase(orgName)){
 			 //RTQ 2 in prepare quote
 			 //String eSizertq2 = wb.getXLData(2, 4, 1);
 			 String locationrtq2 = wb.getXLData(4, 4, 1);
@@ -593,7 +593,7 @@ public class Monorail extends Driver {
 		//Matrix specific change Estimated size and location
 		 String orgName = driver.findElement(By.xpath("//*[@id='breadcrumbs']/ul/li[1]/a[text()='"+ev.org_Name+"']")).getText();
 		 log.info("orgName888888888888____"+orgName);
-		 if(ev.org_Name.equalsIgnoreCase(orgName)){
+		 if(ev.org_Matrixs.equalsIgnoreCase(orgName)){
 			 //RTQ 3 in revised prepare quote
 			 //String eSizertq3 = wb.getXLData(7, 4, 1);
 			 String locationrtq3 = wb.getXLData(9, 4, 1);

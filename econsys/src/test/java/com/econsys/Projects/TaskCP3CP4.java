@@ -144,12 +144,13 @@ public class TaskCP3CP4 extends Driver{
 		 }
 		 
 		 ab.getComments().sendKeys("Scope Doc and Contract Value Verification");
+		 cu.selectByVisibleText(ccq.getExeCP4(), ev.execp4);
 		 b.submit_Logout();
 
 		 TandCreview();
   }
 		
-//T and C review in Matrix and PAG
+//T and C review in Matrix, PAG and 4eg
 	 public static void TandCreview() throws InterruptedException, IOException{
 		 login.url();
 		 login.loginOD();
@@ -162,8 +163,7 @@ public class TaskCP3CP4 extends Driver{
 		 pr_Methods.linktoFileupload();
 		 
 		 ab.getComments().sendKeys("T & C verification...");
-		 ab.getSubmitbutton().click();
-		 login.logout();
+		 b.submit_Logout();
 	 }
 
   //Prepare response task

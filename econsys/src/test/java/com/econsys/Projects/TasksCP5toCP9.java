@@ -117,7 +117,7 @@ public class TasksCP5toCP9 extends Driver {
 	  //login.logout();
  }
   
-  //Matrix pdp chnged from other orgs used in Small works also
+  //Matrix pdp chnged from other orgs used in Small works also and in 4eg
   public void pdp_Matrix() throws IOException, InterruptedException {
 	  try{
 	  login.url();
@@ -138,19 +138,18 @@ public class TasksCP5toCP9 extends Driver {
 	  Thread.sleep(500);
 	  pdp_ui.getProject_Programme_document().click();
 	  projectMethods_Small_Works.linktoFileupload();
-
-	//Payment terms
-	  cu.blindWait();
+	  
+	  //payment terms
 	  log.info("commmercial suite payments ");
 	  cu.selectByIndex(ak.getDraftCommercialSuitProduced(),2);
 	  /*if(ev.draftproduced.equals("Yes")){
-	  
 		  ak.getPayment_Cycle_Document().click();
 		  projectMethods_Small_Works.linktoFileupload();
 	  }*/
 	  ak.getPayment_Terms().sendKeys("15");
 	  ak.getDays_From().sendKeys("3");
 	  log.info("completed");
+	  
 	  /*Value forecast grid details and adding milestone values*/
 	  cu.blindWait();
 	  pdp_ui.getAddnewvalueforcast().click();
@@ -177,6 +176,54 @@ public class TasksCP5toCP9 extends Driver {
 		  System.out.println(e);
 	  }
  }
+  
+  public void pdp_4eg() throws IOException, InterruptedException{
+	  try{
+		  login.url();
+		  
+		  login.loginPL();
+		  String taskName = PropertiesUtil.getPropValues("PDP");
+		  b.projectTaskName(taskName);
+		  
+		  List<WebElement> deletebutton=driver().findElements(By.xpath("//a[starts-with(@id,'delete_')]"));
+		  for(int i=0;i<deletebutton.size();i++){
+			  Thread.sleep(500);
+			  deletebutton.get(i).click();
+			  Thread.sleep(500);
+			  driver().findElement(By.xpath("//div[div[contains(text(),'Are you sure, you want to delete?')]]/div/a[1]")).click();
+		  }
+		  
+		  /*pdp.getPlandoc().sendKeys(filepath+"\\Documentsuploded\\plandoc.docx");*/
+		  Thread.sleep(500);
+		  pdp_ui.getProject_Programme_document().click();
+		  projectMethods_Small_Works.linktoFileupload();
+		  
+		  /*Value forecast grid details and adding milestone values*/
+		  cu.blindWait();
+		  pdp_ui.getAddnewvalueforcast().click();
+		  //pdp_ui.getMilestone().sendKeys("Milestone");
+		  pdp_ui.getInvoiceNumber().sendKeys("15");
+		  driver().findElement(By.xpath("//input[@id='milestoneDate']")).click();
+		  pdp_ui.getDate().click();
+		  String milestonevalue = wb.getXLData(1,5, 2);
+		  pdp_ui.getContractWorks().sendKeys(""+milestonevalue);
+		  //pdp_ui.getVariation().sendKeys("5000");
+		  //pdp_ui.getClaim().sendKeys("6000");
+		  pdp_ui.getCommentsMilestone().sendKeys("Application is added...");
+		  //ab.getPop_Comments().sendKeys("Addnewvalueforcast");
+		  pdp_ui.getSavemilestone().click();
+		  
+		  cu.blindWait();
+		  Thread.sleep(1000);
+		  driver().findElement(By.xpath("//input[@id='fileList_flm_milestoneDocument']")).click();
+		  projectMethods_Small_Works.linktoFileupload();
+		  
+		  ab.getComments().sendKeys("PDP");
+		  }
+		  catch(WebDriverException e){
+			  System.out.println(e);
+		  }
+  }
   
   /*Delivery review task*/
   @Test(priority=1)

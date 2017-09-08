@@ -8,6 +8,7 @@ import java.util.List;
 
 import java.util.Random;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Test;
@@ -29,6 +30,7 @@ public class TasksCP4toCP5 extends Driver {
 	AppointkeystaffandCommerSuitUi ak=PageFactory.initElements(Driver.driver(), AppointkeystaffandCommerSuitUi.class);
 	Salestooperation so=PageFactory.initElements(Driver.driver(),Salestooperation.class);
 	
+	Logger log = Logger.getLogger(TasksCP4toCP5.class);
 	//import classes
 		static Workbook wb=new Workbook();
 		static Monorail rtq=new Monorail();
@@ -76,7 +78,6 @@ public void apointkeystaf() throws IOException, InterruptedException{
 	  b.projectTaskName(taskName);
 	  cu.selectByVisibleText(ak.getDraftCommercialSuitProduced(),ev.draftproduced);
 	  if(ev.draftproduced.equals("Yes")){
-	  
 		  ak.getCummercialSuit_doc().click();
 		  projectMethods_Small_Works.linktoFileupload();
 	  }
@@ -88,8 +89,8 @@ public void apointkeystaf() throws IOException, InterruptedException{
   public void commerSuitUKAS() throws IOException, InterruptedException{
 	  login.loginCL();
 	  cu.blindWait();
-	  //String taskName = PropertiesUtil.getPropValues("commercial_Suite");
-	  b.projectTaskName("Commercial tasks prior to commencement");
+	  String taskName = PropertiesUtil.getPropValues("commercial_task_Prior_Commencement");
+	  b.projectTaskName(taskName);
 	  cu.selectByVisibleText(ak.getDraftCommercialSuitProduced(),ev.draftproduced);
 	  if(ev.draftproduced.equals("Yes")){
 	  ak.getCummercialSuit_doc().click();
@@ -100,6 +101,30 @@ public void apointkeystaf() throws IOException, InterruptedException{
 	  cu.selectByIndex(driver.findElement(By.xpath("//select[@id='st_projectPlanner']")), 1);
 	
 	  cu.selectByIndex(driver.findElement(By.xpath("//select[@id='st_paymentRequestType']")), 2);
+	  ab.getComments().sendKeys("Commercial Suite and Application for Payment");
+	  ab.getSubmitbutton().click();
+	  //Thread.sleep(1000);
+	  login.logout();
+	  //driver().quit();
+  }
+  
+  //Commercial suite for 4eg
+  public void cummercialSuite_4eg() throws InterruptedException, IOException{
+	//Payment terms
+	  login.loginCL();
+	  cu.blindWait();
+	  //String taskName = PropertiesUtil.getPropValues("commercial_Suite");
+	  b.projectTaskName("Commercial Tasks Prior to Commencement");
+	  cu.blindWait();
+	  log.info("commmercial suite payments ");
+	  cu.selectByIndex(ak.getDraftCommercialSuitProduced(),2);
+	  /*if(ev.draftproduced.equals("Yes")){
+		  ak.getPayment_Cycle_Document().click();
+		  projectMethods_Small_Works.linktoFileupload();
+	  }*/
+	  ak.getPayment_Terms().sendKeys("15");
+	  ak.getDays_From().sendKeys("3");
+	  log.info("completed");
 	  ab.getComments().sendKeys("Commercial Suite and Application for Payment");
 	  ab.getSubmitbutton().click();
 	  //Thread.sleep(1000);
